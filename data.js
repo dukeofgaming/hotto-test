@@ -1,0 +1,80 @@
+
+const submission_1 = {
+    submission_id: "ghi321",
+    form_id: "basic_check",
+    submitted_at: "2025-04-10T16:30:45Z",
+    patient_id: "abc123",
+    answers: {
+      q1: { question: "Patient Name", answer: "María Lopez", type: "text" },
+      q2: { question: "Date of Birth", answer: "1955-03-18", type: "date" },
+      q3: { question: "Has Insurance?", answer: "Yes", type: "boolean" },
+      q4: {
+        question: "Insurance Provider",
+        answer: {
+          name: "UnitedHealth",
+          policy_number: "UH-001-8892"
+        },
+        type: "object"
+      },
+      q5: {
+        question: "Recent Health Events",
+        answer: [
+          "Hospitalization in 2024",
+          "Started blood pressure medication",
+          "Diagnosed with sleep apnea"
+        ],
+        type: "array"
+      }
+    }
+  };
+  
+  const submission_2 = {
+    submission_id: "ghi323",
+    form_id: "mental_health_followup",
+    submitted_at: "2025-04-08T16:30:45Z",
+    patient_id: "abc123",
+    answers: {
+      q1: { question: "Patient Name", answer: "María Lopez", type: "text" },
+      q2: { question: "Date of Birth", answer: "1955-03-18", type: "date" },
+      q3: {
+        question: "Describe your mood over the past week",
+        answer: "Anxious, occasionally depressed",
+        type: "text"
+      },
+      q4: {
+        question: "How many hours of sleep did you get last night?",
+        answer: "6",
+        type: "number"
+      }
+    }
+  };
+  
+  const submission_3 = {
+    submission_id: "ghi322",
+    form_id: "basic_check",
+    submitted_at: "2025-03-10T16:30:45Z",
+    patient_id: "abc234",
+    answers: {
+      q1: { question: "Patient Name", answer: "Luis Jhonson", type: "text" },
+      q2: { question: "Date of Birth", answer: "1950-04-01", type: "date" },
+      q3: { question: "Has Insurance?", answer: "No", type: "boolean" },
+      q4: {
+        question: "Insurance Provider",
+        answer: {
+          name: "",
+          policy_number: ""
+        },
+        type: "object"
+      },
+      q5: {
+        question: "Recent Health Events",
+        answer: [
+          "Fractured hip in 2022",
+          "Diagnosed with type 2 diabetes",
+          "Routine colonoscopy completed"
+        ],
+        type: "array"
+      }
+    }
+  };
+  
