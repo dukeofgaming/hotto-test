@@ -1,5 +1,47 @@
 questions : {
     shape: sql_table
-
-    
+    id: "VARCHAR(255) PRIMARY KEY"
+    question_text: "VARCHAR(1000) NOT NULL"
+    question_type: "VARCHAR(20) NOT NULL"
 }
+
+forms : {
+    shape: sql_table
+    id: "VARCHAR(255) PRIMARY KEY"
+}
+
+patients : {
+    shape: sql_table
+    id: "VARCHAR(255) PRIMARY KEY"
+}
+
+submissions : {
+    shape: sql_table
+    id: "VARCHAR(255) PRIMARY KEY"
+    form_id: "VARCHAR(255) NOT NULL"
+    patient_id: "VARCHAR(255) NOT NULL"
+    submitted_at: "BIGINT NOT NULL"
+}
+
+answers : {
+    shape: sql_table
+    id: "VARCHAR(255) PRIMARY KEY"
+    submission_id: "VARCHAR(255) NOT NULL"
+    question_id: "VARCHAR(255) NOT NULL"
+    value: "TEXT NOT NULL"
+}
+
+form_questions : {
+    shape: sql_table
+    form_id: "VARCHAR(255) NOT NULL"
+    question_id: "VARCHAR(255) NOT NULL"
+    position: "INTEGER NOT NULL"
+}
+
+# Relationships
+submissions -> forms : "form_id"
+submissions -> patients : "patient_id"
+answers -> submissions : "submission_id"
+answers -> questions : "question_id"
+form_questions -> forms : "form_id"
+form_questions -> questions : "question_id"
