@@ -8,6 +8,8 @@ import secrets
 import json
 from hotto.domain.entities.answer import Answer
 from hotto.domain.entities.submission import Submission
+from hotto.infrastructure.gateways.mysql_submission_gateway import MySQLSubmissionGateway
+from hotto.infrastructure.gateways.mysql_answer_gateway import MySQLAnswerGateway
 
 app = Flask(
     __name__,
@@ -28,21 +30,7 @@ db_config = {
 
 ALLOWED_QUESTION_TYPES = {'text', 'date', 'boolean', 'object', 'array', 'number'}
 
-def iso8601_to_unix(value):
-    """
-    Converts an ISO8601 string (e.g., '2025-04-10T16:30:45Z') to a Unix timestamp (int).
-    Accepts both string and int input; returns int.
-    """
-    from datetime import datetime, timezone
-    if isinstance(value, int):
-        return value
-    if isinstance(value, str):
-        try:
-            dt = datetime.fromisoformat(value.replace('Z', '+00:00'))
-            return int(dt.timestamp())
-        except Exception:
-            pass
-    raise ValueError(f"Cannot convert {value} to Unix timestamp")
+# Removed iso8601_to_unix helper; now encapsulated in Submission
 
 # Endpoint to handle submissions
 @app.route('/submit', methods=['POST'])
@@ -52,46 +40,27 @@ def submit():
     conn = None  # Initialize conn to None
     try:
         conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
+        # Use gateways instead of direct SQL
+        submission_gateway = MySQLSubmissionGateway(conn)
+        answer_gateway = MySQLAnswerGateway(conn)
 
         # Create Submission object from JSON
         submission = Submission.from_dict(data)
 
-        # Insert submission into the database
-        submission_query = """
-        INSERT INTO submissions (id, form_id, patient_id, submitted_at)
-        VALUES (%s, %s, %s, %s)
-        """
-        cursor.execute(submission_query, (
-            submission.id,
-            submission.form_id,
-            submission.patient_id,
-            submission.submitted_at
-        ))
-
-        # Build a mapping from question text to the answer dict for reliable lookups
+        # Validate question types before saving
         question_text_to_answer = {
             ans['question']: ans
             for ans in data['answers'].values()
         }
-
-        # Insert answers into the database
         for answer_obj in submission.answers:
-            # Get the answer dict by question text
             answer_dict = question_text_to_answer[answer_obj.question_id]
             question_type = answer_dict.get('type')
             if question_type not in ALLOWED_QUESTION_TYPES:
                 return jsonify({"error": f"Invalid question type: {question_type}"}), 400
-            answer_query = """
-            INSERT INTO answers (id, submission_id, question_id, value)
-            VALUES (%s, %s, %s, %s)
-            """
-            cursor.execute(answer_query, (
-                answer_obj.id,
-                answer_obj.submission_id,
-                answer_obj.question_id,
-                answer_obj.value
-            ))
+
+        # Save submission and answers using gateways
+        submission_gateway.save(submission)
+        answer_gateway.save(submission.answers)
 
         conn.commit()
         return jsonify({"message": "Submission saved successfully"}), 201
@@ -101,7 +70,6 @@ def submit():
 
     finally:
         if conn and conn.is_connected():
-            cursor.close()
             conn.close()
 
 @app.route('/')
