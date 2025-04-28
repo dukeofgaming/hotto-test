@@ -29,12 +29,19 @@
 ### 7. Validation
 - Question types are validated before any database operation to ensure only allowed types are processed.
 
-### 8. Dependency Injection
+### 8. Dependency Injection & Abstraction
 - Gateways are instantiated with an active database connection and injected into the application layer, allowing for easy swapping of backends or mocking in tests.
+- **SubmissionRepository** abstract class added at the domain layer, with a concrete MySQL implementation at the infrastructure layer.
+- The repository now encapsulates the use of both submission and answer gateways, so the application layer only interacts with the repository for persistence (except for question validation).
+- The application layer is now completely decoupled from SQL and gateway logic.
+
+### 9. Code Cleanup
+- Removed unused helpers (such as the ISO8601-to-unix function from app.py) as logic was encapsulated in the domain model.
+- Only methods that are actually used are defined in repositories and gateways, keeping the API minimal and focused.
 
 ---
 
 ## Summary
 - The codebase is now modular, testable, and scalable.
-- All business logic is encapsulated in the domain layer; persistence is handled by gateways; and the application layer is clean and focused.
+- All business logic is encapsulated in the domain layer; persistence is handled by gateways and repositories; and the application layer is clean and focused.
 - The design supports future extension (e.g., new storage backends, new validation rules) with minimal changes to the core logic.

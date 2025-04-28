@@ -8,8 +8,7 @@ import secrets
 import json
 from hotto.domain.entities.answer import Answer
 from hotto.domain.entities.submission import Submission
-from hotto.infrastructure.gateways.mysql_submission_gateway import MySQLSubmissionGateway
-from hotto.infrastructure.gateways.mysql_answer_gateway import MySQLAnswerGateway
+from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 
 app = Flask(
     __name__,
@@ -40,9 +39,8 @@ def submit():
     conn = None  # Initialize conn to None
     try:
         conn = mysql.connector.connect(**db_config)
-        # Use gateways instead of direct SQL
-        submission_gateway = MySQLSubmissionGateway(conn)
-        answer_gateway = MySQLAnswerGateway(conn)
+        # Use repository instead of direct gateways
+        submission_repository = MySQLSubmissionRepository(conn)
 
         # Create Submission object from JSON
         submission = Submission.from_dict(data)
@@ -58,9 +56,8 @@ def submit():
             if question_type not in ALLOWED_QUESTION_TYPES:
                 return jsonify({"error": f"Invalid question type: {question_type}"}), 400
 
-        # Save submission and answers using gateways
-        submission_gateway.save(submission)
-        answer_gateway.save(submission.answers)
+        # Save submission and answers using repository
+        submission_repository.save(submission)
 
         conn.commit()
         return jsonify({"message": "Submission saved successfully"}), 201
