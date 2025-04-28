@@ -11,11 +11,17 @@ __pycache__/
 env/
 venv/
 ENV/
-.env
 build/
 dist/
 *.egg-info/
 .eggs/
+
+# Ignore .env files
+.env
+!.env.dist
+
+# Allow test.env
+!test.env
 
 # Flask specific
 instance/
