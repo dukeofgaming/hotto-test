@@ -9,6 +9,7 @@ import json
 from hotto.domain.entities.answer import Answer
 from hotto.domain.entities.submission import Submission
 from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
+from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
 
 app = Flask(
     __name__,
@@ -27,10 +28,6 @@ db_config = {
     'database'  : os.getenv('DB_NAME', 'submissions_db')
 }
 
-ALLOWED_QUESTION_TYPES = {'text', 'date', 'boolean', 'object', 'array', 'number'}
-
-# Removed iso8601_to_unix helper; now encapsulated in Submission
-
 # Endpoint to handle submissions
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -39,28 +36,14 @@ def submit():
     conn = None  # Initialize conn to None
     try:
         conn = mysql.connector.connect(**db_config)
-        # Use repository instead of direct gateways
         submission_repository = MySQLSubmissionRepository(conn)
+        use_case = SaveSubmissionUseCase(submission_repository)
 
-        # Create Submission object from JSON
         submission = Submission.from_dict(data)
-
-        # Validate question types before saving
-        question_text_to_answer = {
-            ans['question']: ans
-            for ans in data['answers'].values()
-        }
-        for answer_obj in submission.answers:
-            answer_dict = question_text_to_answer[answer_obj.question_id]
-            question_type = answer_dict.get('type')
-            if question_type not in ALLOWED_QUESTION_TYPES:
-                return jsonify({"error": f"Invalid question type: {question_type}"}), 400
-
-        # Save submission and answers using repository
-        submission_repository.save(submission)
-
-        conn.commit()
-        return jsonify({"message": "Submission saved successfully"}), 201
+        response, status_code = use_case.save_submission(submission, data['answers'])
+        if status_code == 201:
+            conn.commit()
+        return jsonify(response), status_code
 
     except Exception as err:  # Catch all exceptions
         return jsonify({"error": str(err)}), 500
