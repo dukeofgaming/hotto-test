@@ -4,6 +4,7 @@ import json
 import os
 from hotto.bootloader import bootloader
 from hotto.slices.save_submission.infrastructure.mysql_save_submission_controller import MySQLSaveSubmissionController
+from hotto.slices.patient_analytics.controllers.patient_api_controller import PatientApiController
 
 app = Flask(
     __name__,
@@ -36,6 +37,16 @@ def index():
         manifest = json.load(f)
     js_file = manifest['index.html']['file']
     return render_template('index.html', react_name="World", react_js_file=js_file)
+
+@app.route('/api/patients/without-insurance', methods=['GET'])
+def api_get_patients_without_insurance():
+    controller = PatientApiController()
+    return controller.get_patients_without_insurance(request)
+
+@app.route('/api/patients/clinical-data', methods=['GET'])
+def api_get_clinical_data():
+    controller = PatientApiController()
+    return controller.get_clinical_data(request)
 
 if __name__ == '__main__':
     # Prepare db_config for bootloader

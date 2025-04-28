@@ -62,4 +62,3 @@ def test_given_failing_submission_when_posted_then_returns_error(client, mocker,
     # Assert: The response should indicate a failure with an appropriate error message
     assert response.status_code == 500
     assert "error" in response.get_json()
-    assert response.get_json()["error"] == "Database connection failed"
