@@ -58,6 +58,12 @@
 - The application layer (Flask routes) now depends only on the infrastructure controller, which wires up repositories and use cases per Clean Architecture.
 - Updated the codebase to be modular, testable, and ready for further feature slices or infrastructure implementations.
 
+## [2025-04-28] Refactor: Controller Encapsulation & Thin Routing
+
+- Refactored the `/submit` route to be a pure routing layer, delegating all business, infrastructure, and error handling logic to the `MySQLSaveSubmissionController`.
+- The controller now manages database connection setup, commit, close, and error handling internally, returning only a response tuple to the route.
+- Rationale: This change enforces Clean Architecture best practices by keeping the application layer focused solely on HTTP routing, maximizing modularity, testability, and separation of concerns. All infrastructure logic is now fully encapsulated, making the codebase easier to maintain and extend.
+
 ---
 
 ## Summary

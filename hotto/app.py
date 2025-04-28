@@ -33,24 +33,9 @@ db_config = {
 # Endpoint to handle submissions
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = request.get_json()
-
-    conn = None  # Initialize conn to None
-    try:
-        conn = mysql.connector.connect(**db_config)
-        controller = MySQLSaveSubmissionController(conn)
-
-        response, status_code = controller.save_submission(request)
-        if status_code == 201:
-            conn.commit()
-        return jsonify(response), status_code
-
-    except Exception as err:  # Catch all exceptions
-        return jsonify({"error": str(err)}), 500
-
-    finally:
-        if conn and conn.is_connected():
-            conn.close()
+    controller = MySQLSaveSubmissionController()
+    response, status_code = controller.save_submission(request)
+    return jsonify(response), status_code
 
 @app.route('/')
 def index():
