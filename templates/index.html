@@ -5,7 +5,10 @@
     <title>Hello World</title>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to the Flask index page.</p>
+    <div id="react-root"></div>
+    <script>
+        window.REACT_PROPS = {{ react_name|tojson }};
+    </script>
+    <script type="module" src="{{ url_for('static', filename='react/' + react_js_file) }}"></script>
 </body>
 </html>

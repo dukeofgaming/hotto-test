@@ -50,3 +50,9 @@ Thumbs.db
 *.tmp
 *.old
 *.orig
+
+# Node.js
+node_modules/
+
+# Static files
+static/

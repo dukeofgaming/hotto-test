@@ -2,16 +2,11 @@ from flask import Flask, request, jsonify, render_template
 import mysql.connector
 from dotenv import load_dotenv
 import os
-from hotto.bootloader import bootloader
+from bootloader import bootloader
 import hashlib
 import secrets
-import json
 
-app = Flask(
-    __name__,
-    static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),
-    template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates')
-)
+app = Flask(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -94,11 +89,7 @@ def submit():
 
 @app.route('/')
 def index():
-    manifest_path = os.path.join(app.static_folder, 'react', '.vite', 'manifest.json')
-    with open(manifest_path) as f:
-        manifest = json.load(f)
-    js_file = manifest['index.html']['file']
-    return render_template('index.html', react_name="World", react_js_file=js_file)
+    return render_template('index.html', react_name="World")
 
 if __name__ == '__main__':
     # Prepare db_config for bootloader
