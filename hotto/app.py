@@ -6,6 +6,8 @@ from hotto.bootloader import bootloader
 import hashlib
 import secrets
 import json
+from hotto.domain.entities.answer import Answer
+from hotto.domain.entities.submission import Submission
 
 app = Flask(
     __name__,
@@ -52,39 +54,43 @@ def submit():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
+        # Create Submission object from JSON
+        submission = Submission.from_dict(data)
+
         # Insert submission into the database
         submission_query = """
         INSERT INTO submissions (id, form_id, patient_id, submitted_at)
         VALUES (%s, %s, %s, %s)
         """
         cursor.execute(submission_query, (
-            data['submission_id'],
-            data['form_id'],
-            data['patient_id'],
-            iso8601_to_unix(data['submitted_at'])
+            submission.id,
+            submission.form_id,
+            submission.patient_id,
+            submission.submitted_at
         ))
 
+        # Build a mapping from question text to the answer dict for reliable lookups
+        question_text_to_answer = {
+            ans['question']: ans
+            for ans in data['answers'].values()
+        }
+
         # Insert answers into the database
-        for key, answer in data['answers'].items():
-            # Validate question type
-            question_type = answer.get('type')
+        for answer_obj in submission.answers:
+            # Get the answer dict by question text
+            answer_dict = question_text_to_answer[answer_obj.question_id]
+            question_type = answer_dict.get('type')
             if question_type not in ALLOWED_QUESTION_TYPES:
                 return jsonify({"error": f"Invalid question type: {question_type}"}), 400
-            # Use the question text as question_id
-            question_id = answer['question']
-            # Compose a unique, non-reversible hash for the answer id
-            id_source = f"{data['submission_id']}|{question_id}|{str(answer['answer'])}"
-            # Use SHA-256 and then encode as hex, but truncate to 64 chars to ensure <255
-            answer_id = hashlib.sha256(id_source.encode('utf-8') + secrets.token_bytes(8)).hexdigest()[:64]
             answer_query = """
             INSERT INTO answers (id, submission_id, question_id, value)
             VALUES (%s, %s, %s, %s)
             """
             cursor.execute(answer_query, (
-                answer_id,
-                data['submission_id'],
-                question_id,
-                str(answer['answer'])
+                answer_obj.id,
+                answer_obj.submission_id,
+                answer_obj.question_id,
+                answer_obj.value
             ))
 
         conn.commit()
