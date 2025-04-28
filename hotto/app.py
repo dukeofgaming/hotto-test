@@ -11,6 +11,7 @@ from hotto.domain.entities.submission import Submission
 from hotto.domain.repositories.submission_repository import SubmissionRepository
 from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
+from hotto.slices.save_submission.infrastructure.mysql_save_submission_controller import MySQLSaveSubmissionController
 
 app = Flask(
     __name__,
@@ -37,11 +38,9 @@ def submit():
     conn = None  # Initialize conn to None
     try:
         conn = mysql.connector.connect(**db_config)
-        submission_repository = MySQLSubmissionRepository(conn)
-        use_case = SaveSubmissionUseCase(submission_repository)
+        controller = MySQLSaveSubmissionController(conn)
 
-        submission = Submission.from_dict(data)
-        response, status_code = use_case.save_submission(submission, data['answers'])
+        response, status_code = controller.save_submission(request)
         if status_code == 201:
             conn.commit()
         return jsonify(response), status_code

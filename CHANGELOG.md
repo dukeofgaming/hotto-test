@@ -49,6 +49,15 @@
 - Removed obsolete helpers and unused constants from the application layer.
 - Only methods that are actually used are defined in repositories and gateways, keeping the API minimal and focused.
 
+## [2025-04-28] Refactor: Fractal Clean Architecture & Controller Placement
+
+- Refactored the project to strictly follow fractal Clean Architecture principles at the feature slice level.
+- Moved all controller abstractions and implementations for the `save_submission` feature into the slice's `adapters` and `infrastructure` folders, respectively.
+- Removed all redundant or duplicate controllers and abstract classes outside the slice to ensure all abstractions are local and reusable within their feature.
+- Updated all imports and infrastructure wiring to use the new controller locations.
+- The application layer (Flask routes) now depends only on the infrastructure controller, which wires up repositories and use cases per Clean Architecture.
+- Updated the codebase to be modular, testable, and ready for further feature slices or infrastructure implementations.
+
 ---
 
 ## Summary
