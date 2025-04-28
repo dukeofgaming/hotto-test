@@ -1,7 +1,7 @@
 CREATE TABLE questions (
     id VARCHAR(255) NOT NULL PRIMARY KEY,
     question_text VARCHAR(1000) NOT NULL,
-    type VARCHAR(20) NOT NULL CHECK (type IN ('text', 'date', 'boolean', 'object', 'array', 'number'))
+    type VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE forms (

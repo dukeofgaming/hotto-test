@@ -24,6 +24,8 @@ db_config = {
     'database'  : os.getenv('DB_NAME', 'submissions_db')
 }
 
+ALLOWED_QUESTION_TYPES = {'text', 'date', 'boolean', 'object', 'array', 'number'}
+
 def iso8601_to_unix(value):
     """
     Converts an ISO8601 string (e.g., '2025-04-10T16:30:45Z') to a Unix timestamp (int).
@@ -64,6 +66,10 @@ def submit():
 
         # Insert answers into the database
         for key, answer in data['answers'].items():
+            # Validate question type
+            question_type = answer.get('type')
+            if question_type not in ALLOWED_QUESTION_TYPES:
+                return jsonify({"error": f"Invalid question type: {question_type}"}), 400
             # Use the question text as question_id
             question_id = answer['question']
             # Compose a unique, non-reversible hash for the answer id
