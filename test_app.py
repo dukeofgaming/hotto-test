@@ -14,7 +14,7 @@ def client():
 
 @pytest.fixture
 def submissions():
-    with open('data.json') as f:
+    with open('data/data.json') as f:
         return json.load(f)
 
 def test_given_basic_check_submission_when_posted_then_returns_success(client, mocker, submissions):

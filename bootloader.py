@@ -33,7 +33,7 @@ def print_tables(cursor):
         print(f"- {table_name}")
     return tables
 
-def bootloader(db_config, schema_file='schema_ddl.sql', fixtures_file='fixtures.sql'):
+def bootloader(db_config, schema_file='data/schema_ddl.sql', fixtures_file='data/fixtures.sql'):
     """
     Checks if the database schema is empty. If so, creates tables from schema_ddl.sql.
     Loads fixtures from fixtures.sql if present.
