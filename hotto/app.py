@@ -8,6 +8,7 @@ import secrets
 import json
 from hotto.domain.entities.answer import Answer
 from hotto.domain.entities.submission import Submission
+from hotto.domain.repositories.submission_repository import SubmissionRepository
 from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
 

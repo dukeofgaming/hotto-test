@@ -1,10 +1,10 @@
 from hotto.domain.entities.submission import Submission
-from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
+from hotto.domain.repositories.submission_repository import SubmissionRepository
 
 ALLOWED_QUESTION_TYPES = {'text', 'date', 'boolean', 'object', 'array', 'number'}
 
 class SaveSubmissionUseCase:
-    def __init__(self, submission_repository: MySQLSubmissionRepository):
+    def __init__(self, submission_repository: SubmissionRepository):
         self.submission_repository = submission_repository
 
     def save_submission(self, submission: Submission, raw_answers: dict):

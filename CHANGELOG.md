@@ -35,13 +35,23 @@
 - The repository now encapsulates the use of both submission and answer gateways, so the application layer only interacts with the repository for persistence (except for question validation).
 - The application layer is now completely decoupled from SQL and gateway logic.
 
-### 9. Code Cleanup
-- Removed unused helpers (such as the ISO8601-to-unix function from app.py) as logic was encapsulated in the domain model.
+### 9. Feature Slices & Use Cases
+- Introduced a `slices/save_submission` feature folder, organizing code by feature and Clean Architecture layer.
+- Created a `SaveSubmissionUseCase` class in the usecase layer, encapsulating business logic for saving submissions and answers, including question type validation.
+- The use case returns a tuple (response dict, status code) for the endpoint to handle HTTP response logic.
+
+### 10. Strict Dependency Rule Enforcement
+- Use cases and domain logic now depend only on domain-level interfaces (e.g., `SubmissionRepository`), never on infrastructure implementations.
+- All infrastructure dependencies are injected at the application layer, ensuring the domain and use case layers are fully decoupled from technology choices and persistence details.
+- Imports in the use case and domain layers reference only abstractions, not concrete classes.
+
+### 11. Code Cleanup
+- Removed obsolete helpers and unused constants from the application layer.
 - Only methods that are actually used are defined in repositories and gateways, keeping the API minimal and focused.
 
 ---
 
 ## Summary
 - The codebase is now modular, testable, and scalable.
-- All business logic is encapsulated in the domain layer; persistence is handled by gateways and repositories; and the application layer is clean and focused.
-- The design supports future extension (e.g., new storage backends, new validation rules) with minimal changes to the core logic.
+- All business logic is encapsulated in the domain and use case layers; persistence is handled by gateways and repositories; and the application layer is clean and focused.
+- The design supports future extension (e.g., new storage backends, new validation rules, new feature slices) with minimal changes to the core logic.
