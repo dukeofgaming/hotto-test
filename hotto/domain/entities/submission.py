@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-from typing import List
-from .answer import Answer
 from datetime import datetime
+from .answer import Answer
+from typing import List
 
 @dataclass(frozen=True)
 class Submission:

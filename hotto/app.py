@@ -1,16 +1,8 @@
-from flask import Flask, request, jsonify, render_template
-import mysql.connector
 from dotenv import load_dotenv
+from flask import Flask, jsonify, render_template, request
+import json
 import os
 from hotto.bootloader import bootloader
-import hashlib
-import secrets
-import json
-from hotto.domain.entities.answer import Answer
-from hotto.domain.entities.submission import Submission
-from hotto.domain.repositories.submission_repository import SubmissionRepository
-from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
-from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
 from hotto.slices.save_submission.infrastructure.mysql_save_submission_controller import MySQLSaveSubmissionController
 
 app = Flask(

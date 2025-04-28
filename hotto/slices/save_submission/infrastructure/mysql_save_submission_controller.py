@@ -1,10 +1,11 @@
 import mysql.connector
 from mysql.connector import Error
+from flask import jsonify
+import os
+from hotto.domain.entities.submission import Submission
+from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.save_submission.adapters.save_submission_controller import SaveSubmissionController
 from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
-from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
-import os
-from flask import jsonify
 
 class MySQLSaveSubmissionController(SaveSubmissionController):
     def __init__(self, db_config=None):
@@ -28,8 +29,6 @@ class MySQLSaveSubmissionController(SaveSubmissionController):
             if not data:
                 return {"error": "Invalid or missing JSON payload."}, 400
 
-            # Use the domain entity's from_dict method, not a repository method
-            from hotto.domain.entities.submission import Submission
             submission = Submission.from_dict(data)
 
             response, status_code = use_case.save_submission(submission, data['answers'])

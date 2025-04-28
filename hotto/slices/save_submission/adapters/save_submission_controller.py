@@ -1,6 +1,6 @@
+from hotto.domain.entities.submission import Submission
 from hotto.slices.save_submission.adapters.abstract_save_submission_controller import AbstractSaveSubmissionController
 from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
-from hotto.domain.entities.submission import Submission
 
 class SaveSubmissionController(AbstractSaveSubmissionController):
     def __init__(self, use_case: SaveSubmissionUseCase):

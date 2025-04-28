@@ -64,6 +64,11 @@
 - The controller now manages database connection setup, commit, close, and error handling internally, returning only a response tuple to the route.
 - Rationale: This change enforces Clean Architecture best practices by keeping the application layer focused solely on HTTP routing, maximizing modularity, testability, and separation of concerns. All infrastructure logic is now fully encapsulated, making the codebase easier to maintain and extend.
 
+## [2025-04-28] Style: Alphabetize Imports
+
+- Alphabetized all import statements across key Python modules in the project.
+- Rationale: Improves code readability, maintainability, and reduces merge conflicts by enforcing a consistent import order throughout the codebase.
+
 ---
 
 ## Summary
