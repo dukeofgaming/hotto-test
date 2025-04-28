@@ -1,6 +1,6 @@
 import json
 import pytest
-from app import app
+from hotto.app import app
 from dotenv import load_dotenv
 
 # Load test environment variables

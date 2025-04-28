@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 import mysql.connector
 from dotenv import load_dotenv
 import os
-from bootloader import bootloader
+from hotto.bootloader import bootloader
 import hashlib
 import secrets
 

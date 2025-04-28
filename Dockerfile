@@ -15,7 +15,7 @@ COPY . .
 EXPOSE 5000
 
 # Set environment variables (optional, for Flask)
-ENV FLASK_APP=app.py
+ENV FLASK_APP=hotto.app
 
 # Default command to run the app
-CMD ["python", "app.py"]
+CMD ["python", "-m", "hotto.app"]

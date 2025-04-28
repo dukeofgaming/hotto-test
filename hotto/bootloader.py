@@ -39,7 +39,7 @@ def bootloader(db_config, schema_file='data/schema_ddl.sql', fixtures_file='data
     Loads fixtures from fixtures.sql if present.
     Always prints the list of tables in the database.
     """
-    import os
+
     reset_db = os.getenv('RESET_DB', 'false').strip().lower() in ('1', 'true', 'yes', 'on')
     conn = None
     try:
