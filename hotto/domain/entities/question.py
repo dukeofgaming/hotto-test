@@ -5,3 +5,4 @@ class Question:
     id: str
     question_text: str
     type: str
+    is_clinical: bool

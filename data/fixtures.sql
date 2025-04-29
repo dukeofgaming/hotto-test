@@ -10,13 +10,13 @@ INSERT INTO patients (id) VALUES ('abc321');
 INSERT INTO patients (id) VALUES ('abc432');
 
 -- Preload fixture data for questions
-INSERT INTO questions (id, question_text, type) VALUES ('Patient Name', 'Patient Name', 'text');
-INSERT INTO questions (id, question_text, type) VALUES ('Date of Birth', 'Date of Birth', 'date');
-INSERT INTO questions (id, question_text, type) VALUES ('Has Insurance?', 'Has Insurance?', 'boolean');
-INSERT INTO questions (id, question_text, type) VALUES ('Insurance Provider', 'Insurance Provider', 'object');
-INSERT INTO questions (id, question_text, type) VALUES ('Recent Health Events', 'Recent Health Events', 'array');
-INSERT INTO questions (id, question_text, type) VALUES ('Describe your mood over the past week', 'Describe your mood over the past week', 'text');
-INSERT INTO questions (id, question_text, type) VALUES ('How many hours of sleep did you get last night?', 'How many hours of sleep did you get last night?', 'number');
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('Patient Name', 'Patient Name', 'text', FALSE);
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('Date of Birth', 'Date of Birth', 'date', FALSE);
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('Has Insurance?', 'Has Insurance?', 'boolean', FALSE);
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('Insurance Provider', 'Insurance Provider', 'object', FALSE);
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('Recent Health Events', 'Recent Health Events', 'array', TRUE);
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('Describe your mood over the past week', 'Describe your mood over the past week', 'text', TRUE);
+INSERT INTO questions (id, question_text, type, is_clinical) VALUES ('How many hours of sleep did you get last night?', 'How many hours of sleep did you get last night?', 'number', TRUE);
 
 -- Preload fixture data for form_questions
 -- basic_check form

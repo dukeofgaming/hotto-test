@@ -38,7 +38,8 @@ class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
             SELECT s.*, a.*
             FROM submissions s
             LEFT JOIN answers a ON a.submission_id = s.id
-            WHERE s.patient_id = %s
+            LEFT JOIN questions q ON a.question_id = q.id
+            WHERE s.patient_id = %s AND q.is_clinical = TRUE
         '''
         cursor.execute(query, (patient_id,))
         data = cursor.fetchall()

@@ -1,7 +1,8 @@
 CREATE TABLE questions (
     id VARCHAR(255) NOT NULL PRIMARY KEY,
     question_text VARCHAR(1000) NOT NULL,
-    type VARCHAR(20) NOT NULL
+    type VARCHAR(20) NOT NULL,
+    is_clinical BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE forms (

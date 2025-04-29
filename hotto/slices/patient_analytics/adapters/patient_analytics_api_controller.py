@@ -12,12 +12,15 @@ class PatientAnalyticsApiController:
 
     def get_patients_without_insurance(self, request):
         patients = self.usecase.get_patients_without_insurance()
-        # Serialize each Patient entity (assumes Patient has an id attribute)
+
         return jsonify([p.id for p in patients]), 200
 
     def get_clinical_data(self, request):
         patient_id = request.args.get("patient_id")
+
         if not patient_id:
             return jsonify({"error": "Missing patient_id"}), 400
+
         data = self.usecase.get_clinical_data_for_patient(patient_id)
-        return jsonify({"clinical_data": data}), 200
+
+        return jsonify(data), 200
