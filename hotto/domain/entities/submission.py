@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-from datetime import datetime
-from .answer import Answer
 from typing import List
+from hotto.domain.entities.answer import Answer
+from hotto.modules.Timestamp.timestamp_helper import TimestampHelper
 
 @dataclass(frozen=True)
 class Submission:
@@ -10,18 +10,6 @@ class Submission:
     patient_id: str
     submitted_at: int
     answers: List[Answer] = field(default_factory=list)
-
-    @staticmethod
-    def _iso8601_to_unix(value):
-        if isinstance(value, int):
-            return value
-        if isinstance(value, str):
-            try:
-                dt = datetime.fromisoformat(value.replace('Z', '+00:00'))
-                return int(dt.timestamp())
-            except Exception:
-                pass
-        raise ValueError(f"Cannot convert {value} to Unix timestamp")
 
     @classmethod
     def from_dict(cls, data):
@@ -33,7 +21,8 @@ class Submission:
             )
             for ans in data['answers'].values()
         ]
-        submitted_at = cls._iso8601_to_unix(data['submitted_at'])
+        # Use TimestampHelper for conversion
+        submitted_at = TimestampHelper.iso8601_to_unix(data['submitted_at']) if 'submitted_at' in data else None
         return cls(
             id=data['submission_id'],
             form_id=data['form_id'],
