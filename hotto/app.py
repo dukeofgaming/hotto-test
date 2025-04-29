@@ -3,7 +3,7 @@ from flask import Flask, jsonify, render_template, request
 import json
 import os
 from hotto.bootloader import bootloader
-from hotto.slices.save_submission.infrastructure.mysql_save_submission_controller import MySQLSaveSubmissionController
+from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
 from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
 
 load_dotenv()
@@ -25,7 +25,7 @@ app.config['DB_CONFIG'] = {
 # Endpoint to handle submissions
 @app.route('/submit', methods=['POST'])
 def submit():
-    controller = MySQLSaveSubmissionController()
+    controller = SaveSubmissionApiController()
     response, status_code = controller.save_submission(request)
     return jsonify(response), status_code
 
