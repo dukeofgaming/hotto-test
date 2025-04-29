@@ -18,3 +18,8 @@ Your solution should be able to:
     - Be able to extend to new forms.
     - Build a simple react component to show surveys for a patient with all the questions and answers.
         - Include a selector to select by form type
+
+
+# Assumptions
+
+- Assuming patient IDs are created beforehand by an administrator
