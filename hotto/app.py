@@ -6,21 +6,20 @@ from hotto.bootloader import bootloader
 from hotto.slices.save_submission.infrastructure.mysql_save_submission_controller import MySQLSaveSubmissionController
 from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
 
+load_dotenv()
+
 app = Flask(
     __name__,
     static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),
     template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates')
 )
 
-# Load environment variables
-load_dotenv()
-
-# Database configuration
-db_config = {
+# Centralize DB config in app.config
+app.config['DB_CONFIG'] = {
     'host'      : os.getenv('DB_HOST', 'localhost'),
     'user'      : os.getenv('DB_USER', 'root'),
     'password'  : os.getenv('DB_PASSWORD', 'password'),
-    'database'  : os.getenv('DB_NAME', 'submissions_db')
+    'database'  : os.getenv('DB_NAME', 'submissions_db'),
 }
 
 # Endpoint to handle submissions
@@ -51,7 +50,7 @@ def get_clinical_data():
 
 if __name__ == '__main__':
     # Prepare db_config for bootloader
-    bootloader(db_config)
+    bootloader(app.config['DB_CONFIG'])
     flask_env = os.getenv('FLASK_ENV', 'production').strip().lower()
     os.environ['FLASK_ENV'] = flask_env
     debug_env = os.getenv('FLASK_DEBUG', '').strip().lower()

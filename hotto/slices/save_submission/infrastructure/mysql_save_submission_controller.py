@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from flask import jsonify
+from flask import jsonify, current_app
 import os
 from hotto.modules.survey.domain.entities.submission import Submission
 from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
@@ -10,12 +10,7 @@ from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSu
 class MySQLSaveSubmissionController(SaveSubmissionController):
     def __init__(self, db_config=None):
         if db_config is None:
-            db_config = {
-                'host'      : os.getenv('DB_HOST', 'localhost'),
-                'user'      : os.getenv('DB_USER', 'root'),
-                'password'  : os.getenv('DB_PASSWORD', 'password'),
-                'database'  : os.getenv('DB_NAME', 'submissions_db')
-            }
+            db_config = current_app.config['DB_CONFIG']
         self.db_config = db_config
         super().__init__(None)  # use_case will be created per request
 

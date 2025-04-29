@@ -1,17 +1,13 @@
 from typing import List, Dict, Any
 from hotto.slices.patient_analytics.application.patient_analytics_gateway import PatientAnalyticsGateway
+from flask import current_app
 import mysql.connector
 import os
 
 class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
     def __init__(self, db_config=None):
         if db_config is None:
-            db_config = {
-                'host': os.getenv('DB_HOST', 'localhost'),
-                'user': os.getenv('DB_USER', 'root'),
-                'password': os.getenv('DB_PASSWORD', 'password'),
-                'database': os.getenv('DB_NAME', 'submissions_db'),
-            }
+            db_config = current_app.config['DB_CONFIG']
         self.db_config = db_config
 
     def get_patients_without_insurance(self) -> List[str]:
