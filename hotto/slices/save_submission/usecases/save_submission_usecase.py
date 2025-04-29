@@ -1,5 +1,5 @@
-from hotto.domain.entities.submission import Submission
-from hotto.domain.repositories.submission_repository import SubmissionRepository
+from hotto.modules.survey.domain.entities.submission import Submission
+from hotto.modules.survey.domain.repositories.submission_repository import SubmissionRepository
 
 ALLOWED_QUESTION_TYPES = {'text', 'date', 'boolean', 'object', 'array', 'number'}
 

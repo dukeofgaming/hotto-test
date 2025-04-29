@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
-from hotto.domain.entities.answer import Answer
+from hotto.modules.survey.domain.entities.answer import Answer
 from hotto.modules.timestamp.timestamp_helper import TimestampHelper
 
 @dataclass(frozen=True)

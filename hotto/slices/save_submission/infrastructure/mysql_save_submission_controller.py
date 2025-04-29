@@ -2,8 +2,8 @@ import mysql.connector
 from mysql.connector import Error
 from flask import jsonify
 import os
-from hotto.domain.entities.submission import Submission
-from hotto.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
+from hotto.modules.survey.domain.entities.submission import Submission
+from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.save_submission.adapters.save_submission_controller import SaveSubmissionController
 from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
 
