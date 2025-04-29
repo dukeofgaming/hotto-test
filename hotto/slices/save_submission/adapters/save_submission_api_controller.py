@@ -6,15 +6,10 @@ from hotto.modules.survey.infrastructure.repositories.mysql_submission_repositor
 from hotto.slices.save_submission.usecases.save_submission_usecase import SaveSubmissionUseCase
 
 class SaveSubmissionApiController:
-    def __init__(self, db_config=None):
-        if db_config is None:
-            db_config = current_app.config['DB_CONFIG']
-        self.db_config = db_config
-
     def save_submission(self, request):
         try:
-            # Let the repository handle DB connection management internally
-            submission_repository = MySQLSubmissionRepository(self.db_config)
+            # The repository will handle DB config and connection internally
+            submission_repository = MySQLSubmissionRepository()
             use_case = SaveSubmissionUseCase(submission_repository)
             data = request.get_json()
             if not data:

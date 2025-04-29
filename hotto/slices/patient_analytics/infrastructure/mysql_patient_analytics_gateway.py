@@ -5,10 +5,9 @@ import mysql.connector
 import os
 
 class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
-    def __init__(self, db_config=None):
-        if db_config is None:
-            db_config = current_app.config['DB_CONFIG']
-        self.db_config = db_config
+    def __init__(self):
+        # Always get DB config from app context
+        self.db_config = current_app.config['DB_CONFIG']
 
     def get_patients_without_insurance(self) -> List[str]:
         conn = mysql.connector.connect(**self.db_config)
