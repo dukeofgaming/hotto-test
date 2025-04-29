@@ -1,0 +1,71 @@
+[
+  {
+    "submission_id": "ghi123",
+    "form_id": "basic_check",
+    "submitted_at": "2025-04-11T16:30:45Z",
+    "patient_id": "abc321",
+    "answers": {
+      "q1": { "question": "Patient Name", "answer": "Mario López", "type": "text" },
+      "q2": { "question": "Date of Birth", "answer": "1950-02-18", "type": "date" },
+      "q3": { "question": "Has Insurance?", "answer": "No", "type": "boolean" },
+      "q4": {
+        "question": "Insurance Provider",
+        "answer": { "name": "", "policy_number": "" },
+        "type": "object"
+      },
+      "q5": {
+        "question": "Recent Health Events",
+        "answer": [
+          "Hospitalization in 2020",
+          "Started physical therapy",
+          "Diagnosed with insomnia"
+        ],
+        "type": "array"
+      }
+    }
+  },
+  {
+    "submission_id": "ghi124",
+    "form_id": "mental_health_followup",
+    "submitted_at": "2025-04-08T16:30:45Z",
+    "patient_id": "abc321",
+    "answers": {
+      "q1": { "question": "Patient Name", "answer": "Mario López", "type": "text" },
+      "q2": { "question": "Date of Birth", "answer": "1950-02-18", "type": "date" },
+      "q3": {
+        "question": "Describe your mood over the past week",
+        "answer": "Depressed, occasionally anxious",
+        "type": "text"
+      },
+      "q4": {
+        "question": "How many hours of sleep did you get last night?",
+        "answer": "8",
+        "type": "number"
+      }
+    }
+  },
+  {
+    "submission_id": "ghi125",
+    "form_id": "basic_check",
+    "submitted_at": "2025-02-10T16:30:45Z",
+    "patient_id": "abc432",
+    "answers": {
+      "q1": { "question": "Patient Name", "answer": "Luisa Jhonson", "type": "text" },
+      "q2": { "question": "Date of Birth", "answer": "1955-04-01", "type": "date" },
+      "q3": { "question": "Has Insurance?", "answer": "Yes", "type": "boolean" },
+      "q4": {
+        "question": "Insurance Provider",
+        "answer": { "name": "Aetna", "policy_number": "AH-100-2988" },
+        "type": "object"
+      },
+      "q5": {
+        "question": "Recent Health Events",
+        "answer": [
+          "Fractured foot in 2022",
+          "Diagnosed with type 1 diabetes"
+        ],
+        "type": "array"
+      }
+    }
+  }
+]

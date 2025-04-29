@@ -1,5 +1,5 @@
-from hotto.adapters.gateways.answer_gateway import AnswerGateway
-from hotto.domain.entities.answer import Answer
+from hotto.modules.survey.adapters.gateways.answer_gateway import AnswerGateway
+from hotto.modules.survey.domain.entities.answer import Answer
 
 class MySQLAnswerGateway(AnswerGateway):
     def __init__(self, conn):

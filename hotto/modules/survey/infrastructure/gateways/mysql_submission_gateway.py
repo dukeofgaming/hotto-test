@@ -1,5 +1,5 @@
-from hotto.adapters.gateways.submission_gateway import SubmissionGateway
-from hotto.domain.entities.submission import Submission
+from hotto.modules.survey.adapters.gateways.submission_gateway import SubmissionGateway
+from hotto.modules.survey.domain.entities.submission import Submission
 
 class MySQLSubmissionGateway(SubmissionGateway):
     def __init__(self, conn):

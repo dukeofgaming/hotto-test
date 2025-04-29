@@ -22,12 +22,12 @@ services:
 
   web:
     build: .
+    restart: always
     depends_on:
       db:
         condition: service_healthy
     env_file:
       - .env
-      - .env.dist
     environment:
       DB_HOST: db
       DB_USER: root
