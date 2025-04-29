@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 from hotto.domain.entities.answer import Answer
-from hotto.modules.Timestamp.timestamp_helper import TimestampHelper
+from hotto.modules.timestamp.timestamp_helper import TimestampHelper
 
 @dataclass(frozen=True)
 class Submission:
