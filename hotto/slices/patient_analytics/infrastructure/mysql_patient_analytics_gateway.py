@@ -18,11 +18,11 @@ class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor(dictionary=True)
         query = '''
-            SELECT DISTINCT p.id
-            FROM patients p
-            LEFT JOIN submissions s ON p.id = s.patient_id
-            LEFT JOIN answers a ON a.submission_id = s.id
-            WHERE a.question_id = 'Has Insurance?' AND LOWER(a.value) NOT IN ('yes', 'true', '1')
+            SELECT DISTINCT patients.id
+            FROM patients
+            LEFT JOIN submissions ON patients.id = submissions.patient_id
+            LEFT JOIN answers ON answers.submission_id = submissions.id
+            WHERE answers.question_id = 'Has Insurance?' AND LOWER(answers.value) NOT IN ('yes', 'true', '1')
         '''
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -35,11 +35,20 @@ class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor(dictionary=True)
         query = '''
-            SELECT s.*, a.*
-            FROM submissions s
-            LEFT JOIN answers a ON a.submission_id = s.id
-            LEFT JOIN questions q ON a.question_id = q.id
-            WHERE s.patient_id = %s AND q.is_clinical = TRUE
+            SELECT
+                answers.id AS answer_id,
+                submissions.form_id,
+                answers.question_id,
+                answers.submission_id,
+                submissions.patient_id,
+                submissions.submitted_at,
+                answers.value,
+                questions.is_clinical
+            FROM submissions
+            LEFT JOIN answers ON answers.submission_id = submissions.id
+            LEFT JOIN questions ON answers.question_id = questions.id
+            WHERE submissions.patient_id = %s AND questions.is_clinical = TRUE
+            ORDER BY submissions.submitted_at DESC, submissions.id DESC
         '''
         cursor.execute(query, (patient_id,))
         data = cursor.fetchall()

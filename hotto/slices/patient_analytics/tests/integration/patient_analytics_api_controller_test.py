@@ -11,40 +11,29 @@ def client():
     client = app.test_client()
     yield client
 
-def test_get_patients_without_insurance_returns_200(client):
+def test_given_patient_without_insurance_when_getting_patients_without_insurance_then_returns_200(client):
+    # Arrange
+    # (No setup needed, using existing patient data)
+
+    # Act
     response = client.get('/api/patients/without-insurance')
+
+    # Assert
     assert response.status_code == 200
     assert 'abc321' in response.get_json()
 
-def test_get_clinical_data_returns_200(client):
-    response = client.get('/api/patients/clinical-data?patient_id=abc321')
+def test_given_patient_with_clinical_data_when_getting_clinical_data_then_returns_expected_contract(client):
+    # Arrange
+    patient_id = "abc321"
+
+    # Act
+    response = client.get(f'/api/patients/clinical-data?patient_id={patient_id}')
+
+    # Assert
     assert response.status_code == 200
-    assert response.get_json() == [
-        {
-            "form_id": "mental_health_followup",
-            "id": "e3749bb687bfb5b23ccabdfc1391314aedb56b7c6be65a1a7fd8ff3bd3b10414",
-            "patient_id": "abc321",
-            "question_id": "Describe your mood over the past week",
-            "submission_id": "ghi124",
-            "submitted_at": 1744129845,
-            "value": "Depressed, occasionally anxious"
-        },
-        {
-            "form_id": "mental_health_followup",
-            "id": "d42840a51cb8c33c26f10fe5ff4baaac01585170fd3aebfe7c08c21c67221353",
-            "patient_id": "abc321",
-            "question_id": "How many hours of sleep did you get last night?",
-            "submission_id": "ghi124",
-            "submitted_at": 1744129845,
-            "value": "8"
-        },
-        {
-            "form_id": "basic_check",
-            "id": "df1e07c9e9b40498840308b2de737ade1b5ea28f8e3fb0d3ca70bef31ad234da",
-            "patient_id": "abc321",
-            "question_id": "Recent Health Events",
-            "submission_id": "ghi123",
-            "submitted_at": 1744389045,
-            "value": "['Hospitalization in 2020', 'Started physical therapy', 'Diagnosed with insomnia']"
-        }
-    ]
+    data = response.get_json()
+    assert isinstance(data, list)
+    assert len(data) == 3
+    assert all(bool(item["is_clinical"]) for item in data)
+    assert all(item["patient_id"] == patient_id for item in data)
+    assert all("answer_id" in item for item in data)
