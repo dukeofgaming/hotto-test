@@ -7,8 +7,8 @@ describe("Given SurveySubmissionList is rendered", () => {
     it("Then it renders each submission as a row", () => {
       // Arrange
       const submissions = [
-        { id: "s1", form_id: "intake", patient_id: "p1", submitted_at: 1714430000 },
-        { id: "s2", form_id: "followup", patient_id: "p1", submitted_at: 1714431000 }
+        { submission_id: "s1", form_id: "intake", patient_id: "p1", submitted_at: 1714430000 },
+        { submission_id: "s2", form_id: "followup", patient_id: "p1", submitted_at: 1714431000 }
       ];
       // Act
       render(
@@ -26,8 +26,8 @@ describe("Given SurveySubmissionList is rendered", () => {
     it("Then it calls onView with the correct id", () => {
       // Arrange
       const submissions = [
-        { id: "s1", form_id: "intake", patient_id: "p1", submitted_at: 1714430000 },
-        { id: "s2", form_id: "followup", patient_id: "p1", submitted_at: 1714431000 }
+        { submission_id: "s1", form_id: "intake", patient_id: "p1", submitted_at: 1714430000 },
+        { submission_id: "s2", form_id: "followup", patient_id: "p1", submitted_at: 1714431000 }
       ];
       const onView = jest.fn();
       render(

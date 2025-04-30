@@ -15,7 +15,7 @@ function SurveySubmissionList({ submissions, onView }) {
       </thead>
       <tbody>
         {submissions.map(sub => (
-          <SurveySubmission key={sub.id} submission={sub} onView={onView} />
+          <SurveySubmission key={sub.submission_id || sub.id} submission={sub} onView={onView} />
         ))}
       </tbody>
     </table>

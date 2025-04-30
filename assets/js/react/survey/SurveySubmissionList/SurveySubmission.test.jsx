@@ -7,7 +7,7 @@ describe("Given SurveySubmission is rendered", () => {
     it("Then it renders the submission data", () => {
       // Arrange
       const submission = {
-        id: "s1",
+        submission_id: "s1",
         form_id: "intake",
         patient_id: "p1",
         submitted_at: 1714430000
@@ -28,7 +28,7 @@ describe("Given SurveySubmission is rendered", () => {
     it("Then it calls onView with the correct id", () => {
       // Arrange
       const submission = {
-        id: "s1",
+        submission_id: "s1",
         form_id: "intake",
         patient_id: "p1",
         submitted_at: 1714430000
