@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormSelector from "./FormSelector/FormSelector";
 import SurveySubmissionList from "./SurveySubmissionList/SurveySubmissionList";
 import AnswerList from "./AnswerList/AnswerList";
 
 // --- Begin: Use improved API response as const ---
+/*
 const API_RESPONSE = {
   forms: [
     { id: "basic_check", name: "Basic Check" },
@@ -46,17 +47,38 @@ const API_RESPONSE = {
     }
   ]
 };
+*/
 // --- End: Use improved API response as const ---
 
 function PatientSurveys({ patient_id }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSubmissionId, setSelectedSubmissionId] = useState(null);
   const [selectedFormId, setSelectedFormId] = useState("");
+  const [apiResponse, setApiResponse] = useState({ forms: [], questions: [], submissions: [] });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Use API_RESPONSE
-  const forms = API_RESPONSE.forms;
-  const questions = API_RESPONSE.questions;
-  const submissions = API_RESPONSE.submissions;
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetch(`/api/surveys/show?patient_id=${patient_id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch surveys");
+        return res.json();
+      })
+      .then(data => {
+        setApiResponse(data);
+        setLoading(false);
+      })
+      .catch(e => {
+        setError(e.message);
+        setLoading(false);
+      });
+  }, [patient_id]);
+
+  const forms = apiResponse.forms;
+  const questions = apiResponse.questions;
+  const submissions = apiResponse.submissions;
 
   // Filter submissions by selected form (if any)
   const filteredSubmissions = selectedFormId
@@ -80,6 +102,9 @@ function PatientSurveys({ patient_id }) {
     setModalOpen(false);
     setSelectedSubmissionId(null);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div data-testid="patient-surveys-root">
