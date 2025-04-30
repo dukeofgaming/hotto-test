@@ -124,7 +124,34 @@ function PatientSurveys({ patient_id }) {
       <FormSelector forms={forms} selectedFormId={selectedFormId} onSelect={setSelectedFormId} />
       <SurveySubmissionList submissions={filteredSubmissions} onView={handleView} />
       {modalOpen && (
-        <AnswerList answers={answers} questions={shownQuestions} onClose={handleClose} />
+        <>
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.5)',
+            zIndex: 1000
+          }} />
+          <div style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1001,
+            background: '#fff',
+            borderRadius: 8,
+            boxShadow: '0 2px 24px rgba(0,0,0,0.2)',
+            padding: 24,
+            minWidth: 600,
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+          }}>
+            <AnswerList answers={answers} questions={shownQuestions} onClose={handleClose} />
+          </div>
+        </>
       )}
     </div>
   );
