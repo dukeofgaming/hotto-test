@@ -23,11 +23,10 @@ app.config['DB_CONFIG'] = {
 }
 
 # Endpoint to handle submissions
-@app.route('/submit', methods=['POST'])
+@app.route('/api/surveys/submit', methods=['POST'])
 def submit():
     controller = SaveSubmissionApiController()
-    response, status_code = controller.save_submission(request)
-    return jsonify(response), status_code
+    return controller.save_submission(request)
 
 @app.route('/')
 def index():

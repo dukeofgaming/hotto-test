@@ -26,8 +26,8 @@ def test_given_basic_check_submission_when_posted_then_returns_success(client, m
         if submission['form_id'] == 'basic_check' and submission['submission_id'] == 'ghi321'
     )
 
-    # Act: Post the submission to the /submit endpoint
-    response = client.post('/submit', json=basic_check_submission)
+    # Act: Post the submission to the /api/surveys/submit endpoint
+    response = client.post('/api/surveys/submit', json=basic_check_submission)
 
     # Assert: The response should indicate success
     assert response.status_code == 201
@@ -41,8 +41,8 @@ def test_given_mental_health_followup_submission_when_posted_then_returns_succes
         if submission['form_id'] == 'mental_health_followup'
     )
 
-    # Act: Post the submission to the /submit endpoint
-    response = client.post('/submit', json=mental_health_followup_submission)
+    # Act: Post the submission to the /api/surveys/submit endpoint
+    response = client.post('/api/surveys/submit', json=mental_health_followup_submission)
 
     # Assert: The response should indicate success
     assert response.status_code == 201
@@ -57,8 +57,8 @@ def test_given_failing_submission_when_posted_then_returns_error(client, mocker,
         if submission['submission_id'] == 'ghi322'
     )
 
-    # Act: Post the submission to the /submit endpoint
-    response = client.post('/submit', json=failing_submission)
+    # Act: Post the submission to the /api/surveys/submit endpoint
+    response = client.post('/api/surveys/submit', json=failing_submission)
 
     # Assert: The response should indicate a failure with an appropriate error message
     assert response.status_code == 500

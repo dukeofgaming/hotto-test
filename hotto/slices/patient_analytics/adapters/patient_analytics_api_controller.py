@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from hotto.slices.patient_analytics.application.patient_analytics_usecase import PatientAnalyticsUseCase
+from hotto.slices.patient_analytics.application.patient_analytics_usecase import PatientAnalyticsUseCase, InvalidPatientAnalyticsRequest
 from hotto.slices.patient_analytics.application.patient_analytics_repository import PatientAnalyticsRepository
 from hotto.slices.patient_analytics.application.patient_analytics_gateway import PatientAnalyticsGateway
 from hotto.slices.patient_analytics.infrastructure.mysql_patient_analytics_gateway import MySQLPatientAnalyticsGateway
@@ -8,19 +8,27 @@ class PatientAnalyticsApiController:
     def __init__(self):
         gateway = MySQLPatientAnalyticsGateway()
         repository = PatientAnalyticsRepository(gateway)
-        self.usecase = PatientAnalyticsUseCase(repository, gateway)
+        self.usecase = PatientAnalyticsUseCase(repository)
 
     def get_patients_without_insurance(self, request):
-        patients = self.usecase.get_patients_without_insurance()
-
-        return jsonify([p.id for p in patients]), 200
+        try:
+            patients = self.usecase.get_patients_without_insurance()
+            return jsonify([p.id for p in patients]), 200
+        except InvalidPatientAnalyticsRequest as err:
+            return jsonify({"error": str(err)}), 400
+        except Exception as err:
+            return jsonify({"error": str(err)}), 500
 
     def get_clinical_data(self, request):
-        patient_id = request.args.get("patient_id")
+        try:
+            patient_id = request.args.get("patient_id")
 
-        if not patient_id:
-            return jsonify({"error": "Missing patient_id"}), 400
+            if not patient_id:
+                return jsonify({"error": "Missing patient_id"}), 400
 
-        data = self.usecase.get_clinical_data_for_patient(patient_id)
-
-        return jsonify(data), 200
+            data = self.usecase.get_clinical_data_for_patient(patient_id)
+            return jsonify(data), 200
+        except InvalidPatientAnalyticsRequest as err:
+            return jsonify({"error": str(err)}), 400
+        except Exception as err:
+            return jsonify({"error": str(err)}), 500
