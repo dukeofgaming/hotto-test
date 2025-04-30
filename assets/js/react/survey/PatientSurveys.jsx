@@ -51,6 +51,18 @@ const API_RESPONSE = {
 // --- End: Use improved API response as const ---
 
 function PatientSurveys({ patient_id }) {
+  if (!patient_id) {
+    return (
+      <div style={{ color: 'red', padding: '1em', background: '#fff3cd', border: '1px solid #ffeeba', borderRadius: '4px', margin: '2em 0' }}>
+        <h2 style={{marginTop: 0}}>Patient not found or not provided</h2>
+        <div>
+          <strong>Warning:</strong> No <code>patient_id</code> provided.<br />
+          Please use a URL like <code>localhost/?patient_id=abc321</code> to view patient surveys.
+        </div>
+      </div>
+    );
+  }
+
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSubmissionId, setSelectedSubmissionId] = useState(null);
   const [selectedFormId, setSelectedFormId] = useState("");
