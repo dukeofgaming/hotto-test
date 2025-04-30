@@ -24,8 +24,11 @@ def test_show_surveys_returns_surveys_for_patient(client):
     # Assert
     assert response.status_code == 200
     data = response.get_json()
-    assert isinstance(data, list)
-    for submission in data:
+    assert isinstance(data, dict)
+    assert "submissions" in data
+    submissions = data["submissions"]
+    assert isinstance(submissions, list)
+    for submission in submissions:
         assert isinstance(submission.get('submission_id'), str)
         assert isinstance(submission.get('form_id'), str)
         assert isinstance(submission.get('patient_id'), str)

@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.show_surveys.application.show_surveys_usecase import ShowSurveysUseCase
+from hotto.slices.show_surveys.domain.patient_surveys_aggregate import PatientSurveysAggregate
 
 class ShowSurveysApiController:
     def __init__(self):
@@ -10,14 +11,34 @@ class ShowSurveysApiController:
     def get_surveys_for_patient(self, request):
         patient_id = request.args.get("patient_id")
         try:
-            surveys = self.use_case.get_surveys_for_patient(patient_id)
-            # Convert domain objects to dicts for JSON
-            surveys_json = [self.submission_to_dict(s) for s in surveys]
-            return jsonify(surveys_json), 200
+            aggregate = self.use_case.get_surveys_for_patient(patient_id)
+            # Convert aggregate to dict for JSON
+            return jsonify(self.aggregate_to_dict(aggregate)), 200
         except ValueError as err:
             return jsonify({"error": str(err)}), 400
         except Exception as err:
             return jsonify({"error": str(err)}), 500
+
+    def aggregate_to_dict(self, aggregate):
+        return {
+            "forms": [self.form_to_dict(f) for f in aggregate.forms],
+            "questions": [self.question_to_dict(q) for q in aggregate.questions],
+            "submissions": [self.submission_to_dict(s) for s in aggregate.submissions]
+        }
+
+    def form_to_dict(self, form):
+        return {
+            "id": form.id,
+            **({"name": form.name} if hasattr(form, "name") else {})
+        }
+
+    def question_to_dict(self, question):
+        return {
+            "id": question.id,
+            "question_text": question.question_text,
+            "type": question.type,
+            "is_clinical": bool(question.is_clinical)
+        }
 
     def submission_to_dict(self, submission):
         return {
