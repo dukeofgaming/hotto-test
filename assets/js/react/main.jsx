@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Hello from './Hello';
+import PatientSurveys from './survey/PatientSurveys';
 
-const name = window.REACT_PROPS;
+const patient_id = window.REACT_PROPS;
 const root = createRoot(document.getElementById('react-root'));
-root.render(<Hello name={name} />);
+root.render(<PatientSurveys patient_id={patient_id} />);

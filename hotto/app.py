@@ -5,6 +5,7 @@ import os
 from hotto.bootloader import bootloader
 from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
 from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
+from hotto.slices.show_surveys.adapters.show_surveys_api_controller import ShowSurveysApiController
 
 load_dotenv()
 
@@ -23,11 +24,10 @@ app.config['DB_CONFIG'] = {
 }
 
 # Endpoint to handle submissions
-@app.route('/submit', methods=['POST'])
+@app.route('/api/surveys/submit', methods=['POST'])
 def submit():
     controller = SaveSubmissionApiController()
-    response, status_code = controller.save_submission(request)
-    return jsonify(response), status_code
+    return controller.save_submission(request)
 
 @app.route('/')
 def index():
@@ -35,7 +35,9 @@ def index():
     with open(manifest_path) as f:
         manifest = json.load(f)
     js_file = manifest['index.html']['file']
-    return render_template('index.html', react_name="World", react_js_file=js_file)
+    # Get patient_id from querystring, default to False if not provided
+    patient_id = request.args.get('patient_id', False)
+    return render_template('index.html', react_name=patient_id, react_js_file=js_file)
 
 # Update Flask route handlers to use new controller location
 @app.route('/api/patients/without-insurance', methods=['GET'])
@@ -47,6 +49,11 @@ def get_patients_without_insurance():
 def get_clinical_data():
     controller = PatientAnalyticsApiController()
     return controller.get_clinical_data(request)
+
+@app.route('/api/surveys/show', methods=['GET'])
+def show_surveys():
+    controller = ShowSurveysApiController()
+    return controller.get_surveys_for_patient(request)
 
 if __name__ == '__main__':
     # Prepare db_config for bootloader

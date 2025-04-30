@@ -1,77 +1,49 @@
 # CHANGELOG
 
-## Architectural & Design Decisions
+## [2025-04-28] Clean Architecture & Modular Design
+- **Clean Architecture** (see [[ADR-1]]): The codebase is structured with clear separation of concerns:
+  - **Domain Layer**: Contains core business logic and entities as Python dataclasses (Submission, Answer, Question, Patient, Form).
+  - **Use Case/Application Layer**: Encapsulates business workflows (e.g., SaveSubmissionUseCase).
+  - **Adapters/Infrastructure Layer**: Handles persistence (MySQL gateways/repositories) and external interactions.
+- **Vertical Slicing** (see [[ADR-2]]): Features are organized into self-contained slices (e.g., save_submission, patient_analytics), each with its own domain, use case, adapters, and infrastructure, promoting modularity and scalability.
+- **Screaming Architecture** (see [[ADR-3]]): Directory and file structure make business features and boundaries obvious at a glance.
 
-### 1. Clean Architecture & Screaming Architecture
-- Adopted Clean Architecture principles, separating domain, adapters, and infrastructure layers.
-- Directory structure makes business features and boundaries obvious (Screaming Architecture).
+## [2025-04-28] Domain-Driven Design (DDD) Patterns
+- **Entities**: Core models are Python dataclasses, enforcing immutability and encapsulating business rules.
+- **Repositories**: Abstract interfaces (e.g., SubmissionRepository) decouple domain logic from persistence.
+- **Gateways**: Infrastructure gateways (e.g., MySQLAnswerGateway, MySQLSubmissionGateway) implement persistence logic, supporting both single and bulk inserts.
+- **Value Objects & Aggregates**: Entity IDs (e.g., Answer.id) are deterministically generated from business data, ensuring uniqueness and integrity.
+- **Bounded Contexts**: Each feature slice acts as its own bounded context, with dedicated models and logic. (see [[ADR-5]])
 
-### 2. Domain Entities as Dataclasses
-- Core business entities (`Submission`, `Answer`, `Question`, `Patient`, `Form`) are defined as Python dataclasses for immutability, type safety, and easy instantiation.
-- Entities encapsulate their own logic (e.g., `Submission` handles ISO8601-to-unix timestamp conversion internally).
+## [2025-04-28] Dependency Injection & Decoupling
+- **Dependency Injection**: Use cases and controllers receive repositories/gateways via constructor injection, allowing for easy swapping, testing, and mocking.
+- **Decoupling**: The application and domain layers never reference infrastructure details directly; all dependencies are injected. (see [[ADR-1]])
 
-### 3. Database Schema & Type Validation
-- Removed SQL-level type constraints on the `questions` table to allow dynamic question types.
-- All type validation for questions is performed programmatically in Python, using a set of allowed types (`ALLOWED_QUESTION_TYPES`).
+## [2025-04-28] Controller & Routing Patterns
+- **Thin Controllers**: API controllers (e.g., SaveSubmissionApiController) delegate all business logic to use cases and repositories.
+- **Pure Routing**: Flask routes act as pure HTTP routers, with all business and persistence logic encapsulated in controllers and use cases.
 
-### 4. Gateways & Persistence
-- All database access is encapsulated in Gateway interfaces (in `adapters/gateways/`) and MySQL implementations (in `infrastructure/gateways/`).
-- Gateways use efficient bulk-insert operations where possible (e.g., `MySQLAnswerGateway.save` supports both single and bulk inserts).
-- The application layer never accesses SQL directly.
+## [2025-04-28] Validation & Type Safety
+- **Centralized Validation**: Question types are validated against a central set (ALLOWED_QUESTION_TYPES) in the use case layer before any persistence.
+- **Type Safety**: Domain entities enforce types via dataclasses, reducing runtime errors. (see [[ADR-1]])
 
-### 5. Submission & Answer Loading
-- Submissions and Answers are loaded from JSON using `from_dict` classmethods, which handle all necessary field mapping and type conversion.
-- Question text is used as the unique identifier for answers in a submission, not the outer JSON keys (e.g., `q1`, `q2`).
+## [2025-04-28] Test-Driven & Convention-Driven Development
+- **TDD/BDD**: Test suite for React components and backend logic follows Given/When/Then structure, with descriptive describe/it blocks (e.g., “Then should ...”).
+- **CDD** (see [[ADR-4]]): Consistent naming conventions and code organization, making intent and structure clear.
 
-### 6. Unique ID Generation
-- Answer IDs are generated using a deterministic SHA-256 hash of `submission_id`, `question_id`, and value (no salt), making them unique and non-reversible.
+## [2025-04-28] Code Cleanup & Maintainability
+- **Minimal APIs**: Only necessary methods are exposed in repositories/gateways.
+- **Removed Obsolete Code**: Unused helpers and constants removed for clarity.
+- **Alphabetized Imports**: All imports are alphabetized for readability and to minimize merge conflicts.
+- **Fractal File Structure** (see [[ADR-6]]): Project organization supports modularity and scalability.
 
-### 7. Validation
-- Question types are validated before any database operation to ensure only allowed types are processed.
+## [2025-04-29] Refactor & Test Suite Improvements
+- Refactored all React test files to strictly follow the Given/When/Then structure.
+- Updated all it block descriptions to “Then should ...” for clarity and consistency.
+- Ensured all test logic and assertions remain unchanged; only structure and naming improved.
+- Ran the full test suite and verified all tests pass after changes.
+- Built the project successfully after refactor.
 
-### 8. Dependency Injection & Abstraction
-- Gateways are instantiated with an active database connection and injected into the application layer, allowing for easy swapping of backends or mocking in tests.
-- **SubmissionRepository** abstract class added at the domain layer, with a concrete MySQL implementation at the infrastructure layer.
-- The repository now encapsulates the use of both submission and answer gateways, so the application layer only interacts with the repository for persistence (except for question validation).
-- The application layer is now completely decoupled from SQL and gateway logic.
-
-### 9. Feature Slices & Use Cases
-- Introduced a `slices/save_submission` feature folder, organizing code by feature and Clean Architecture layer.
-- Created a `SaveSubmissionUseCase` class in the usecase layer, encapsulating business logic for saving submissions and answers, including question type validation.
-- The use case returns a tuple (response dict, status code) for the endpoint to handle HTTP response logic.
-
-### 10. Strict Dependency Rule Enforcement
-- Use cases and domain logic now depend only on domain-level interfaces (e.g., `SubmissionRepository`), never on infrastructure implementations.
-- All infrastructure dependencies are injected at the application layer, ensuring the domain and use case layers are fully decoupled from technology choices and persistence details.
-- Imports in the use case and domain layers reference only abstractions, not concrete classes.
-
-### 11. Code Cleanup
-- Removed obsolete helpers and unused constants from the application layer.
-- Only methods that are actually used are defined in repositories and gateways, keeping the API minimal and focused.
-
-## [2025-04-28] Refactor: Fractal Clean Architecture & Controller Placement
-
-- Refactored the project to strictly follow fractal Clean Architecture principles at the feature slice level.
-- Moved all controller abstractions and implementations for the `save_submission` feature into the slice's `adapters` and `infrastructure` folders, respectively.
-- Removed all redundant or duplicate controllers and abstract classes outside the slice to ensure all abstractions are local and reusable within their feature.
-- Updated all imports and infrastructure wiring to use the new controller locations.
-- The application layer (Flask routes) now depends only on the infrastructure controller, which wires up repositories and use cases per Clean Architecture.
-- Updated the codebase to be modular, testable, and ready for further feature slices or infrastructure implementations.
-
-## [2025-04-28] Refactor: Controller Encapsulation & Thin Routing
-
-- Refactored the `/submit` route to be a pure routing layer, delegating all business, infrastructure, and error handling logic to the `MySQLSaveSubmissionController`.
-- The controller now manages database connection setup, commit, close, and error handling internally, returning only a response tuple to the route.
-- Rationale: This change enforces Clean Architecture best practices by keeping the application layer focused solely on HTTP routing, maximizing modularity, testability, and separation of concerns. All infrastructure logic is now fully encapsulated, making the codebase easier to maintain and extend.
-
-## [2025-04-28] Style: Alphabetize Imports
-
-- Alphabetized all import statements across key Python modules in the project.
-- Rationale: Improves code readability, maintainability, and reduces merge conflicts by enforcing a consistent import order throughout the codebase.
-
----
-
-## Summary
-- The codebase is now modular, testable, and scalable.
-- All business logic is encapsulated in the domain and use case layers; persistence is handled by gateways and repositories; and the application layer is clean and focused.
-- The design supports future extension (e.g., new storage backends, new validation rules, new feature slices) with minimal changes to the core logic.
+## [2025-04-28] Fractal Feature Slices & Controller Placement
+- Controllers and abstractions are colocated within their feature slice (slices/save_submission), ensuring all abstractions are local and reusable.
+- The application layer depends only on infrastructure controllers, which wire up repositories and use cases per Clean Architecture.
