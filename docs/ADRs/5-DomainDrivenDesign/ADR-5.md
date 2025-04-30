@@ -19,12 +19,12 @@ Adopt Domain Driven Design (DDD) principles for our core logic, including the us
   - **Aggregates**: Logical groupings of entities and value objects (e.g., a Submission aggregate with Answers).
   - **Bounded Contexts**: Each feature slice acts as a bounded context (e.g., save_submission, patient_analytics).
   - **Gateways**: Infrastructure implementations for persistence (e.g., MySQL gateways).
-- Compatible with Clean Architecture: DDD patterns are implemented in the domain and application layers, separate from infrastructure.
+- Compatible with Clean Architecture pattern (see [[ADR-1]]): DDD patterns are implemented in the domain and application layers, separate from infrastructure.
 
   ![alt text](image-2.png)
 
-- Compatible with Vertical Slicing: Each slice contains its own domain model and logic, supporting modularity and independent evolution.
+- Compatible with Vertical Slicing pattern (see [[ADR-2]]): Each slice contains its own domain model and logic, supporting modularity and independent evolution.
 
   ![alt text](image-1.png)
 
-- Compatible with Screaming Architecture: Feature and domain boundaries are clear and explicit in the project structure.
+- Compatible with Screaming Architecture pattern (see [[ADR-3]]): Feature and domain boundaries are clear and explicit in the project structure.

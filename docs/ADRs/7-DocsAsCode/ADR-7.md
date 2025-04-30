@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-Up-to-date documentation is essential for project success. Documentation must be clear, thorough, and evolve alongside the codebase. Traditional approaches (wikis, external tools) often fall out of sync with code. Treating documentation as code ensures it is always versioned, reviewed, and improved as part of the development process.
+Up-to-date documentation is essential for project success. Documentation must be clear, thorough, and evolve alongside the codebase. Traditional approaches (wikis, external tools) often fall out of sync with code. Treating documentation as code ensures it is always versioned, reviewed, and improved as part of the development process, following the pattern (see [[ADR-7]]).
 
 ## Decision
 Adopt the "Docs as Code" methodology: all technical documentation, ADRs, and guides are written in Markdown and stored in the same repository as the codebase. Documentation is updated via pull requests and reviewed as part of normal development. Developers are encouraged to use text-based tools (e.g., Mermaid, D2, Draw.io) for diagrams and visual aids, also stored as code artifacts.
@@ -46,3 +46,4 @@ form_questions -> questions : "question_id"
 5. Enables automated documentation generation, publishing, and static site creation if needed.
 6. Promotes a culture of continuous documentation and shared ownership.
 7. Using Obsidian or Foam enables developers to create a Knowledge Base over time.
+![alt text](image.png)

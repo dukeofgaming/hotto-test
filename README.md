@@ -1,3 +1,52 @@
+
+# System Overview
+
+Your system receives structured JSON submissions from external forms filled out by users.
+Each form has a unique ID and a list of questions.
+
+The structure of each submission is consistent within a form, but can vary significantly across forms.
+    - Different sets of questions.
+    - Varying formats (strings, dicts, arrays, matrices, etc.)
+    - Optional or missing fields.
+Some of the known structures are defined on the sample data, but there could be new structures, so your program should be flexible enough to handle them and avoid errors.
+
+Your solution should be able to:
+
+- [x] Parse a single survey submission and extract the relevant data.
+- [x] Normalize the output into a consistent internal representation.
+- [x] Store the internal representation in a database of your choice (relational or NoSQL).
+- [x] Support querying the database for analytics, such as:
+    - "Patients without insurance"
+    - "Clinical data for patient X"
+- [x] Be able to extend to new forms.
+- [X] Build a simple react component to show surveys for a patient with all the questions and answers.
+    - Include a selector to select by form type
+
+# Running this project
+
+
+1. Copy .env.dist to .env
+2. Build and run with docker compose:
+```bash
+docker compose up --build
+```
+3. Access the application at http://localhost:80
+
+
+# Architectural Decision Records (ADRs)
+
+This project follows a set of architectural patterns for maintainability, modularity, and clarity. For details on architecture and design decisions, see the following ADRs:
+
+- Clean Architecture (see [[ADR-1]])
+- Vertical Slicing (see [[ADR-2]])
+- Screaming Architecture (see [[ADR-3]])
+- Component Driven Development (see [[ADR-4]])
+- Domain Driven Design (see [[ADR-5]])
+- Fractal File Structure (see [[ADR-6]])
+- Docs as Code (see [[ADR-7]])
+
+For implementation details and rationale, refer to the ADRs directory.
+
 # Architectural Overview & Design Patterns
 
 This project is built with a strong emphasis on maintainability, scalability, and clarity, following modern software architecture and development best practices:
@@ -24,29 +73,6 @@ This project is built with a strong emphasis on maintainability, scalability, an
 - The design supports future extension (e.g., new storage backends, new validation rules, new feature slices) with minimal changes to the core logic.
 
 ---
-
-# System Overview
-
-Your system receives structured JSON submissions from external forms filled out by users.
-Each form has a unique ID and a list of questions.
-
-The structure of each submission is consistent within a form, but can vary significantly across forms.
-    - Different sets of questions.
-    - Varying formats (strings, dicts, arrays, matrices, etc.)
-    - Optional or missing fields.
-Some of the known structures are defined on the sample data, but there could be new structures, so your program should be flexible enough to handle them and avoid errors.
-
-Your solution should be able to:
-
-- [x] Parse a single survey submission and extract the relevant data.
-- [x] Normalize the output into a consistent internal representation.
-- [x] Store the internal representation in a database of your choice (relational or NoSQL).
-- [x] Support querying the database for analytics, such as:
-    - "Patients without insurance"
-    - "Clinical data for patient X"
-- [x] Be able to extend to new forms.
-- [ ] Build a simple react component to show surveys for a patient with all the questions and answers.
-    - Include a selector to select by form type
 
 # Assumptions
 
