@@ -35,7 +35,9 @@ def index():
     with open(manifest_path) as f:
         manifest = json.load(f)
     js_file = manifest['index.html']['file']
-    return render_template('index.html', react_name="World", react_js_file=js_file)
+    # Get patient_id from querystring, default to False if not provided
+    patient_id = request.args.get('patient_id', False)
+    return render_template('index.html', react_name=patient_id, react_js_file=js_file)
 
 # Update Flask route handlers to use new controller location
 @app.route('/api/patients/without-insurance', methods=['GET'])
