@@ -5,6 +5,7 @@ import os
 from hotto.bootloader import bootloader
 from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
 from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
+from hotto.slices.show_surveys.adapters.show_surveys_api_controller import ShowSurveysApiController
 
 load_dotenv()
 
@@ -46,6 +47,11 @@ def get_patients_without_insurance():
 def get_clinical_data():
     controller = PatientAnalyticsApiController()
     return controller.get_clinical_data(request)
+
+@app.route('/api/surveys/show', methods=['GET'])
+def show_surveys():
+    controller = ShowSurveysApiController()
+    return controller.get_surveys_for_patient(request)
 
 if __name__ == '__main__':
     # Prepare db_config for bootloader

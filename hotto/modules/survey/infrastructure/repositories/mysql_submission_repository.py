@@ -19,3 +19,24 @@ class MySQLSubmissionRepository(SubmissionRepository):
             answer_gateway.save(submission.answers)
         finally:
             conn.close()
+
+    def get_by_patient_id(self, patient_id: str) -> list[Submission]:
+        db_config = current_app.config['DB_CONFIG']
+        conn = mysql.connector.connect(**db_config)
+        try:
+            submission_gateway = MySQLSubmissionGateway(conn)
+            submissions_data = submission_gateway.get_by_patient_id(patient_id)
+            submissions = []
+            for data in submissions_data:
+                answers = MySQLAnswerGateway(conn).get_by_submission_id(data['submission_id'])
+                submission = Submission(
+                    id=data['submission_id'],
+                    form_id=data['form_id'],
+                    patient_id=data['patient_id'],
+                    submitted_at=data['submitted_at'],
+                    answers=answers
+                )
+                submissions.append(submission)
+            return submissions
+        finally:
+            conn.close()

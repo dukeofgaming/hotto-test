@@ -23,3 +23,17 @@ class MySQLAnswerGateway(AnswerGateway):
         cursor.executemany(answer_query, data)
         self.conn.commit()
         cursor.close()
+
+    def get_by_submission_id(self, submission_id: str):
+        cursor = self.conn.cursor(dictionary=True)
+        query = """
+        SELECT submission_id, question_id, value
+        FROM answers
+        WHERE submission_id = %s
+        ORDER BY question_id
+        """
+        cursor.execute(query, (submission_id,))
+        rows = cursor.fetchall()
+        cursor.close()
+        from hotto.modules.survey.domain.entities.answer import Answer
+        return [Answer(**row) for row in rows]

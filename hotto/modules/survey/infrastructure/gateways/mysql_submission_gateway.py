@@ -19,3 +19,16 @@ class MySQLSubmissionGateway(SubmissionGateway):
         ))
         self.conn.commit()
         cursor.close()
+
+    def get_by_patient_id(self, patient_id: str):
+        cursor = self.conn.cursor(dictionary=True)
+        query = """
+        SELECT id as submission_id, form_id, patient_id, submitted_at
+        FROM submissions
+        WHERE patient_id = %s
+        ORDER BY submitted_at DESC
+        """
+        cursor.execute(query, (patient_id,))
+        result = cursor.fetchall()
+        cursor.close()
+        return result
