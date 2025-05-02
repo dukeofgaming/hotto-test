@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify
 from http import HTTPStatus
 from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.show_surveys.application.show_surveys_usecase import ShowSurveysUseCase

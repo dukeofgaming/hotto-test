@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from flask import jsonify, current_app
+from flask import jsonify
 from http import HTTPStatus
 from hotto.modules.survey.domain.entities.submission import Submission
 from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
