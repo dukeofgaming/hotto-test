@@ -3,7 +3,7 @@ import SurveySubmission from "./SurveySubmission";
 
 function SurveySubmissionList({ submissions, onView }) {
   return (
-    <table data-testid="survey-submission-list">
+    <table role="table" aria-label="survey submissions">
       <thead>
         <tr>
           <th>ID</th>

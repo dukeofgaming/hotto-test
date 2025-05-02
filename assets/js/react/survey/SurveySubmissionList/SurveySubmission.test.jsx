@@ -12,10 +12,12 @@ describe("Given SurveySubmission is rendered", () => {
         patient_id: "p1",
         submitted_at: 1714430000
       };
+
       // Act
       render(<table><tbody><SurveySubmission submission={submission} onView={() => {}} /></tbody></table>);
+
       // Assert
-      const row = screen.getByTestId("survey-submission-row");
+      const row = screen.getByRole("row", { name: /submission/i });
       expect(row).toBeInTheDocument();
       expect(row).toHaveTextContent("s1");
       expect(row).toHaveTextContent("intake");
@@ -34,10 +36,12 @@ describe("Given SurveySubmission is rendered", () => {
         submitted_at: 1714430000
       };
       const onView = jest.fn();
-      render(<table><tbody><SurveySubmission submission={submission} onView={onView} /></tbody></table>);
-      const viewBtn = screen.getByTestId("view-btn");
+
       // Act
+      render(<table><tbody><SurveySubmission submission={submission} onView={onView} /></tbody></table>);
+      const viewBtn = screen.getByRole("button", { name: /view/i });
       fireEvent.click(viewBtn);
+
       // Assert
       expect(onView).toHaveBeenCalledWith("s1");
     });

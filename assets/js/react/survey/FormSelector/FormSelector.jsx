@@ -3,7 +3,7 @@ import React from "react";
 function FormSelector({ forms, selectedFormId, onSelect }) {
   return (
     <select
-      data-testid="form-selector"
+      aria-label="form selector"
       value={selectedFormId || ""}
       onChange={e => onSelect && onSelect(e.target.value)}
     >
