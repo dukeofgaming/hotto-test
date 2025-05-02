@@ -6,7 +6,7 @@ function BooleanAnswerValue({ value }) {
     value === true ||
     value === "true" ||
     (typeof value === "string" && value.trim().toLowerCase() === "yes");
-  return <input type="checkbox" checked={checked} readOnly data-testid="boolean-answer-value" />;
+  return <input type="checkbox" checked={checked} readOnly role="checkbox" aria-label="answer value" />;
 }
 
 export default BooleanAnswerValue;

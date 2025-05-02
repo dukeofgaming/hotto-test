@@ -15,9 +15,9 @@ function AnswerList({ answers, questions, onClose }) {
     .filter(Boolean);
 
   return (
-    <div data-testid="answer-list-modal" style={{ background: "#fff", border: "1px solid #ccc", padding: 24 }}>
-      <button data-testid="close-btn" onClick={onClose}>Close</button>
-      <table data-testid="answer-list-table">
+    <div role="dialog" aria-label="answers" style={{ background: "#fff", border: "1px solid #ccc", padding: 24 }}>
+      <button type="button" aria-label="close" onClick={onClose}>Close</button>
+      <table>
         <thead>
           <tr>
             <th>Question</th>
