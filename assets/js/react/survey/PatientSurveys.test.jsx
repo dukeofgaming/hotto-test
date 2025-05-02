@@ -41,10 +41,12 @@ describe("Given PatientSurveys is rendered", () => {
     it("Then it renders the PatientSurveys root with the patient_id", async () => {
       // Arrange
       const patientId = "123";
+
       // Act
       render(<PatientSurveys patient_id={patientId} />);
+
       // Assert: wait for the patient-surveys-root to appear
-      const root = await screen.findByTestId("patient-surveys-root");
+      const root = await screen.findByRole("region", { name: /patient surveys root/i });
       expect(root).toBeInTheDocument();
       expect(root).toHaveTextContent("patient_id: 123");
     });

@@ -10,13 +10,16 @@ describe("Given SurveySubmissionList is rendered", () => {
         { submission_id: "s1", form_id: "intake", patient_id: "p1", submitted_at: 1714430000 },
         { submission_id: "s2", form_id: "followup", patient_id: "p1", submitted_at: 1714431000 }
       ];
+
       // Act
       render(
         <SurveySubmissionList submissions={submissions} onView={() => {}} />
       );
+
       // Assert
-      const rows = screen.getAllByTestId("survey-submission-row");
+      const rows = screen.getAllByRole("row", { name: /submission/i });
       expect(rows.length).toBe(2);
+
       expect(rows[0]).toHaveTextContent("s1");
       expect(rows[1]).toHaveTextContent("s2");
     });
@@ -30,12 +33,14 @@ describe("Given SurveySubmissionList is rendered", () => {
         { submission_id: "s2", form_id: "followup", patient_id: "p1", submitted_at: 1714431000 }
       ];
       const onView = jest.fn();
+
+      // Act
       render(
         <SurveySubmissionList submissions={submissions} onView={onView} />
       );
-      const viewBtns = screen.getAllByTestId("view-btn");
-      // Act
+      const viewBtns = screen.getAllByRole("button", { name: /view/i });
       fireEvent.click(viewBtns[0]);
+
       // Assert
       expect(onView).toHaveBeenCalledWith("s1");
     });

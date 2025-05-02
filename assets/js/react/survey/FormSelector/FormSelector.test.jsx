@@ -7,12 +7,14 @@ describe("Given FormSelector is rendered", () => {
     it("Then it renders the options and sets the selected value", () => {
       // Arrange
       const forms = [{ id: "intake" }, { id: "followup" }];
+
       // Act
       render(
         <FormSelector forms={forms} selectedFormId="intake" onSelect={() => {}} />
       );
+
       // Assert
-      const select = screen.getByTestId("form-selector");
+      const select = screen.getByRole("combobox", { name: /form selector/i });
       expect(select).toBeInTheDocument();
       expect(select.value).toBe("intake");
       expect(screen.getByText("intake")).toBeInTheDocument();
@@ -28,9 +30,11 @@ describe("Given FormSelector is rendered", () => {
       render(
         <FormSelector forms={forms} selectedFormId="intake" onSelect={onSelect} />
       );
-      const select = screen.getByTestId("form-selector");
+      const select = screen.getByRole("combobox", { name: /form selector/i });
+
       // Act
       fireEvent.change(select, { target: { value: "followup" } });
+
       // Assert
       expect(onSelect).toHaveBeenCalledWith("followup");
     });
