@@ -12,7 +12,7 @@ class PatientSurveysAggregate:
 
     def to_dict(self):
         return {
-            "forms": [asdict(f) for f in self.forms],
-            "questions": [asdict(q) for q in self.questions],
-            "submissions": [asdict(s) for s in self.submissions]
+            "forms": [asdict(form) for form in self.forms],
+            "questions": [asdict(question) for question in self.questions],
+            "submissions": [asdict(submission) for submission in self.submissions]
         }

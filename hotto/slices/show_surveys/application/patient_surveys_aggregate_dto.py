@@ -2,11 +2,11 @@ class PatientSurveysAggregateDTO:
     def __init__(self, aggregate_asdict):
         self.data = self._process_aggregate(aggregate_asdict)
 
-    def _process_aggregate(self, agg):
+    def _process_aggregate(self, aggregate):
         return {
-            "forms": [self._rename_form(f) for f in agg.get("forms", [])],
-            "questions": [self._rename_question(q) for q in agg.get("questions", [])],
-            "submissions": [self._rename_submission(s) for s in agg.get("submissions", [])],
+            "forms": [self._rename_form(form) for form in aggregate.get("forms", [])],
+            "questions": [self._rename_question(question) for question in aggregate.get("questions", [])],
+            "submissions": [self._rename_submission(submission) for submission in aggregate.get("submissions", [])],
         }
 
     def _rename_form(self, form):
@@ -18,11 +18,11 @@ class PatientSurveysAggregateDTO:
         return question
 
     def _rename_submission(self, submission):
-        s = dict(submission)
-        s['submission_id'] = s.pop('id', None)
-        if 'answers' in s:
-            s['answers'] = [self._rename_answer(a) for a in s['answers']]
-        return s
+        submission_dict = dict(submission)
+        submission_dict['submission_id'] = submission_dict.pop('id', None)
+        if 'answers' in submission_dict:
+            submission_dict['answers'] = [self._rename_answer(answer) for answer in submission_dict['answers']]
+        return submission_dict
 
     def _rename_answer(self, answer):
         # Only keep 'question_id' and 'value', do not try to rename 'id'
