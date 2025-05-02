@@ -1,4 +1,5 @@
 from flask import jsonify, request
+from http import HTTPStatus
 from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
 from hotto.slices.show_surveys.application.show_surveys_usecase import ShowSurveysUseCase
 from hotto.slices.show_surveys.domain.patient_surveys_aggregate import PatientSurveysAggregate
@@ -13,11 +14,11 @@ class ShowSurveysApiController:
         try:
             aggregate = self.use_case.get_surveys_for_patient(patient_id)
             # Convert aggregate to dict for JSON
-            return jsonify(self.aggregate_to_dict(aggregate)), 200
+            return jsonify(self.aggregate_to_dict(aggregate)), HTTPStatus.OK
         except ValueError as err:
-            return jsonify({"error": str(err)}), 400
+            return jsonify({"error": str(err)}), HTTPStatus.BAD_REQUEST
         except Exception as err:
-            return jsonify({"error": str(err)}), 500
+            return jsonify({"error": str(err)}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     def aggregate_to_dict(self, aggregate):
         return {
