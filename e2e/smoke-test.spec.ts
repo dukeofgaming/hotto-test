@@ -9,7 +9,10 @@ test.describe('Patient survey page', () => {
     await page.getByLabel('form selector').selectOption('basic_check');
     await page.getByRole('cell', { name: 'basic_check' }).click();
     await page.getByRole('button', { name: 'view' }).click();
-    
+
+    // Visual Regression: Take screenshot for manual inspection
+    await page.screenshot({ path: __dirname + '/smoke-basic_check.png', fullPage: true });
+
     // Assert
     await expect(page.getByLabel('submission', { exact: true })).toContainText('basic_check');
     await expect(page.getByRole('textbox', { name: 'answer value' })).toBeVisible();
