@@ -68,3 +68,29 @@ test.describe('Patient survey page', () => {
     await page.getByRole('button', { name: 'close' }).click();
   });
 });
+
+test.describe('Patient survey page styles', () => {
+  test('should apply Tailwind background and font styles to body', async ({ page }) => {
+    // Arrange
+    await page.goto('http://localhost/?patient_id=abc321');
+
+    // Act
+    await page.getByLabel('form selector').selectOption('basic_check');
+    await page.getByRole('cell', { name: 'basic_check' }).click();
+    await page.getByRole('button', { name: 'view' }).click();
+
+    // Assert computed background color and font family
+    const bgColor = await page.evaluate(() => {
+      const style = window.getComputedStyle(document.body);
+      return style.backgroundColor;
+    });
+    const fontFamily = await page.evaluate(() => {
+      const style = window.getComputedStyle(document.body);
+      return style.fontFamily;
+    });
+    // Accept both rgb and hex representations for off-white #FFFAF7
+    expect(bgColor === 'rgb(255, 250, 247)' || bgColor === '#FFFAF7').toBeTruthy();
+    // Accept any of the configured sans fonts
+    expect(fontFamily.toLowerCase()).toMatch(/inter|helvetica|arial|sans/);
+  });
+});
