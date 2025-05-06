@@ -5,3 +5,10 @@
 .font-sans {
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
+
+body {
+  background-color: #4B4662 !important;
+  color: #fff !important;
+  font-family: Inter, Helvetica, Arial, sans-serif !important;
+  min-height: 100vh;
+}

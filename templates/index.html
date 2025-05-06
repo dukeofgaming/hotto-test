@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='react/assets/' + react_css_file) }}">
     {% endif %}
 </head>
-<body class="bg-[#FFFAF7] font-sans min-h-screen">
+<body class="bg-primary text-white font-sans min-h-screen">
     <div id="react-root"></div>
     <script>
         window.REACT_PROPS = {{ react_name|tojson }};
