@@ -12,3 +12,11 @@ body {
   font-family: Inter, Helvetica, Arial, sans-serif !important;
   min-height: 100vh;
 }
+
+.hotto-th {
+  background-color: #FF6F4C;
+}
+
+.hotto-td {
+  /* Padding and font handled by Tailwind classes in JSX */
+}

@@ -7,16 +7,19 @@ module.exports = {
     "./**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
-    extend: {
-      colors: {
-        hotto: {
-          DEFAULT: "#4B4662",
-          dark: "#3d364a",
-        },
-        primary: "#4B4662",
-        "primary-light": "#A78BFA",
-        "primary-dark": "#4C1D95",
+    colors: {
+      primary: {
+        DEFAULT: "#4B4662",
+        500: "#4B4662"
       },
+      secondary: {
+        DEFAULT: "#FF6F4C",
+        500: "#FF6F4C"
+      },
+      white: { DEFAULT: "#fff", 500: "#fff" },
+      black: { DEFAULT: "#000", 500: "#000" },
+    },
+    extend: {
       fontFamily: {
         serif: ["Georgia", "serif"],
         sans: ["Inter", "Helvetica", "Arial", "sans-serif"],
@@ -24,14 +27,18 @@ module.exports = {
     },
   },
   safelist: [
-    'bg-[#FFFAF7]',
-    'bg-[#7C3AED]',
     'bg-primary',
-    'bg-primary-dark',
-    'bg-primary-light',
+    'bg-primary-500',
+    'bg-secondary',
+    'bg-secondary-500',
+    'text-white',
+    '!text-white',
     'font-sans',
     'min-h-screen',
-    'text-white',
+    'table-auto',
+    'mx-auto',
+    'align-middle',
+    'whitespace-nowrap',
   ],
   plugins: [],
 }
