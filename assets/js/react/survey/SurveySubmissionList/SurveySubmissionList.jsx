@@ -7,11 +7,11 @@ function SurveySubmissionList({ submissions, onView }) {
       <table role="table" aria-label="survey submissions" className="bg-white rounded-lg shadow-md border border-gray-200 table-auto mx-auto align-middle">
         <thead>
           <tr>
-            <th className="hotto-th px-4 py-2 font-semibold text-left whitespace-nowrap !text-white">ID</th>
-            <th className="hotto-th px-4 py-2 font-semibold text-left whitespace-nowrap !text-white">Form</th>
-            <th className="hotto-th px-4 py-2 font-semibold text-left whitespace-nowrap !text-white">Patient</th>
-            <th className="hotto-th px-4 py-2 font-semibold text-left whitespace-nowrap !text-white">Submitted At</th>
-            <th className="hotto-th px-4 py-2 font-semibold text-left whitespace-nowrap !text-white">Action</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white rounded-tl-lg">ID</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white">Form</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white">Patient</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white">Submitted At</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white rounded-tr-lg">Action</th>
           </tr>
         </thead>
         <tbody>

@@ -134,16 +134,12 @@ function PatientSurveys({ patient_id }) {
             background: 'rgba(0,0,0,0.5)',
             zIndex: 1000
           }} />
-          <div style={{
+          <div className="bg-[#4B4662] rounded-lg shadow-lg p-8 max-w-3xl w-full mx-auto" style={{
             position: 'fixed',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: 1001,
-            background: '#fff',
-            borderRadius: 8,
-            boxShadow: '0 2px 24px rgba(0,0,0,0.2)',
-            padding: 24,
             minWidth: 600,
             maxWidth: '90vw',
             maxHeight: '90vh',
