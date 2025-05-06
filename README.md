@@ -1,4 +1,3 @@
-
 # System Overview
 
 Your system receives structured JSON submissions from external forms filled out by users.
@@ -49,28 +48,19 @@ For implementation details and rationale, refer to the ADRs directory.
 
 # Architectural Overview & Design Patterns
 
-This project is built with a strong emphasis on maintainability, scalability, and clarity, following modern software architecture and development best practices:
+This project is designed for maintainability, scalability, and clarity using modern architecture patterns:
 
-- **Clean Architecture**: The codebase is structured with clear separation of concerns:
-  - **Domain Layer**: Core business logic and entities as Python dataclasses.
-  - **Use Case/Application Layer**: Encapsulates business workflows.
-  - **Adapters/Infrastructure Layer**: Handles persistence and external interactions.
+- **Clean Architecture**: Clear separation of concerns—domain logic, use cases, and infrastructure are isolated. All business logic lives in the domain and use case layers; persistence is handled by gateways and repositories.
 - **Vertical Slicing**: Features are organized into self-contained slices (e.g., `save_submission`, `patient_analytics`), each with its own domain, use case, adapters, and infrastructure.
-- **Screaming Architecture**: Directory and file structure make business features and boundaries obvious at a glance.
-- **Domain-Driven Design (DDD)**: Uses entities, repositories, gateways, value objects, and bounded contexts. Each feature slice acts as its own bounded context, with dedicated models and logic.
-- **Dependency Injection**: Use cases and controllers receive repositories/gateways via constructor injection, allowing for easy swapping, testing, and mocking. The application and domain layers never reference infrastructure details directly.
-- **Thin Controllers & Pure Routing**: API controllers delegate all business logic to use cases and repositories. Flask routes act as pure HTTP routers, with all business and persistence logic encapsulated in controllers and use cases.
-- **Centralized Validation & Type Safety**: Question types are validated against a central set before any persistence. Domain entities enforce types via dataclasses, reducing runtime errors.
-- **TDD/BDD**: Test suite for React components and backend logic follows Given/When/Then structure, with descriptive describe/it blocks (e.g., “Then should ...”).
-- **CDD**: Consistent naming conventions and code organization, making intent and structure clear.
-- **Minimal APIs & Cleanup**: Only necessary methods are exposed in repositories/gateways. Unused helpers and constants are removed for clarity. Imports are alphabetized for readability and to minimize merge conflicts.
+- **Screaming Architecture**: The directory structure makes business features and boundaries obvious.
+- **Domain-Driven Design (DDD)**: Uses entities, repositories, gateways, and value objects. Each slice is a bounded context with dedicated models and logic.
+- **Dependency Injection**: Use cases and controllers receive repositories/gateways via constructor injection for easy testing and swapping. The core never references infrastructure directly.
+- **Thin Controllers & Pure Routing**: API controllers only route requests; all business and persistence logic is in use cases and controllers.
+- **Centralized Validation & Type Safety**: Question types are validated centrally before persistence. Domain entities use dataclasses for type safety.
+- **Testing**: Test suites for React and backend logic use clear Given/When/Then structure. Naming and organization are consistent and descriptive.
+- **Minimal APIs & Cleanup**: Only necessary methods are exposed. Unused code is removed and imports are alphabetized for clarity.
 
----
-
-# Project Summary
-- The codebase exemplifies Clean Architecture, DDD, vertical slicing, and best practices for maintainability and testability.
-- All business logic is encapsulated in the domain and use case layers; persistence is handled by gateways and repositories; and the application layer is clean and focused.
-- The design supports future extension (e.g., new storage backends, new validation rules, new feature slices) with minimal changes to the core logic.
+The design supports easy extension (e.g., new storage backends, validation rules, or feature slices) with minimal changes to core logic.
 
 ---
 
