@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello World</title>
-    <!-- DEBUG: react_css_file={{ react_css_file }} -->
     {% if react_css_file %}
     <link rel="stylesheet" href="{{ url_for('static', filename='react/assets/' + react_css_file) }}">
     {% endif %}
