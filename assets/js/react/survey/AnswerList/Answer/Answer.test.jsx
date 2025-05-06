@@ -13,11 +13,11 @@ describe("Given a question and answer", () => {
         <table><tbody><Answer question={question} answer={answer} /></tbody></table>
       );
       // Assert
-      const row = screen.getByTestId("answer-row");
+      const row = screen.getByRole("row", { name: /answer/i });
       expect(row).toBeInTheDocument();
       expect(row).toHaveTextContent("How old are you?");
       expect(row).toHaveTextContent("text");
-      const input = screen.getByTestId("text-answer-value");
+      const input = screen.getByRole("textbox", { name: /answer value/i });
       expect(input.value).toBe("42");
     });
   });

@@ -11,7 +11,7 @@ describe("Given AnswerValue is rendered", () => {
       // Act
       render(<AnswerValue value={value} type={type} />);
       // Assert
-      const input = screen.getByTestId("text-answer-value");
+      const input = screen.getByRole("textbox", { name: /answer value/i });
       expect(input).toBeInTheDocument();
       expect(input).toHaveAttribute("readonly");
       expect(input.value).toBe(value);
@@ -41,7 +41,7 @@ describe("Given AnswerValue is rendered", () => {
       // Act
       render(<AnswerValue value={value} type={type} />);
       // Assert
-      const checkbox = screen.getByTestId("boolean-answer-value");
+      const checkbox = screen.getByRole("checkbox", { name: /answer value/i });
       expect(checkbox).toBeInTheDocument();
       expect(checkbox.checked).toBe(true);
     });
@@ -52,7 +52,7 @@ describe("Given AnswerValue is rendered", () => {
       // Act
       render(<AnswerValue value={value} type={type} />);
       // Assert
-      const checkbox = screen.getByTestId("boolean-answer-value");
+      const checkbox = screen.getByRole("checkbox", { name: /answer value/i });
       expect(checkbox).toBeInTheDocument();
       expect(checkbox.checked).toBe(false);
     });

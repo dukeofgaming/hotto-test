@@ -19,7 +19,7 @@ Your solution should be able to:
     - "Patients without insurance"
     - "Clinical data for patient X"
 - [x] Be able to extend to new forms.
-- [X] Build a simple react component to show surveys for a patient with all the questions and answers.
+- [x] Build a simple react component to show surveys for a patient with all the questions and answers.
     - Include a selector to select by form type
 
 # Running this project

@@ -119,7 +119,7 @@ function PatientSurveys({ patient_id }) {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div data-testid="patient-surveys-root">
+    <div role="region" aria-label="patient surveys root">
       Patient Surveys for patient_id: {patient_id}
       <FormSelector forms={forms} selectedFormId={selectedFormId} onSelect={setSelectedFormId} />
       <SurveySubmissionList submissions={filteredSubmissions} onView={handleView} />
