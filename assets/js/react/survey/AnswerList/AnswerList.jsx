@@ -15,14 +15,14 @@ function AnswerList({ answers, questions, onClose }) {
     .filter(Boolean);
 
   return (
-    <div role="dialog" aria-label="answers" style={{ background: "#fff", border: "1px solid #ccc", padding: 24 }}>
+    <div role="dialog" aria-label="answers" className="bg-white rounded-lg shadow-md border border-gray-200 p-8 max-w-3xl w-full mx-auto">
       <button type="button" aria-label="close" onClick={onClose}>Close</button>
-      <table>
+      <table className="w-full table-auto mx-auto align-middle">
         <thead>
           <tr>
-            <th>Question</th>
-            <th>Type</th>
-            <th>Answer</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white rounded-tl-lg">Question</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white">Type</th>
+            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white rounded-tr-lg">Answer</th>
           </tr>
         </thead>
         <tbody>

@@ -62,3 +62,5 @@ static/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+e2e/smoke-basic_check.png
