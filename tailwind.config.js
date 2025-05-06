@@ -20,5 +20,10 @@ module.exports = {
       }
     },
   },
+  safelist: [
+    'bg-[#FFFAF7]',
+    'font-sans',
+    'min-h-screen'
+  ],
   plugins: [],
 }
