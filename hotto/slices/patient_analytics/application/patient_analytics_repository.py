@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from hotto.modules.survey.domain.entities.patient import Patient
 from hotto.slices.patient_analytics.application.patient_analytics_gateway import PatientAnalyticsGateway
-from hotto.modules.timestamp.timestamp_helper import TimestampHelper
+from hotto.modules.timestamp.domain.timestamp_helper import TimestampHelper
 
 class PatientAnalyticsRepository:
     """
