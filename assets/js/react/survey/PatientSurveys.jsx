@@ -119,36 +119,45 @@ function PatientSurveys({ patient_id }) {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div role="region" aria-label="patient surveys root">
-      Patient Surveys for patient_id: {patient_id}
-      <FormSelector forms={forms} selectedFormId={selectedFormId} onSelect={setSelectedFormId} />
-      <SurveySubmissionList submissions={filteredSubmissions} onView={handleView} />
-      {modalOpen && (
-        <>
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            background: 'rgba(0,0,0,0.5)',
-            zIndex: 1000
-          }} />
-          <div className="bg-[#4B4662] rounded-lg shadow-lg p-8 max-w-3xl w-full mx-auto" style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 1001,
-            minWidth: 600,
-            maxWidth: '90vw',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-          }}>
-            <AnswerList answers={answers} questions={shownQuestions} onClose={handleClose} />
-          </div>
-        </>
-      )}
+    <div className="min-h-screen flex items-center justify-center bg-[#554F6C]">
+      <div role="region" aria-label="patient surveys root" className="flex flex-col items-center justify-center gap-y-6 bg-[#F6E7D8] rounded-xl shadow-lg px-2 md:px-8 py-4 md:py-10 max-w-4xl overflow-auto">
+        <div className="w-full overflow-x-auto">
+          <SurveySubmissionList
+            submissions={filteredSubmissions}
+            onView={handleView}
+            patient_id={patient_id}
+            forms={forms}
+            selectedFormId={selectedFormId}
+            onSelect={setSelectedFormId}
+          />
+        </div>
+        {modalOpen && (
+          <>
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              background: 'rgba(0,0,0,0.5)',
+              zIndex: 1000
+            }} />
+            <div className="bg-[#4B4662] rounded-lg shadow-lg p-8 max-w-3xl w-full mx-auto" style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 1001,
+              minWidth: 600,
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+            }}>
+              <AnswerList answers={answers} questions={shownQuestions} onClose={handleClose} />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

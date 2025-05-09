@@ -17,12 +17,16 @@ describe("Given SurveySubmissionList is rendered", () => {
       );
 
       // Assert
-      const rows = screen.getAllByRole("row", { name: /submission/i });
-      expect(rows.length).toBe(2);
+      // Get all rows, including header and info rows
+      const allRows = screen.getAllByRole("row");
+      // Data rows are after the two header rows
+      const dataRows = allRows.slice(2);
+      expect(dataRows.length).toBe(2);
 
-      expect(rows[0]).toHaveTextContent("s1");
-      expect(rows[1]).toHaveTextContent("s2");
+      expect(dataRows[0]).toHaveTextContent("s1");
+      expect(dataRows[1]).toHaveTextContent("s2");
     });
+
   });
 
   describe("When the 'View' button is clicked", () => {
