@@ -26,19 +26,10 @@ module.exports = {
       }
     },
   },
-  safelist: [
-    'bg-primary',
-    'bg-primary-500',
-    'bg-secondary',
-    'bg-secondary-500',
-    'text-white',
-    '!text-white',
-    'font-sans',
-    'min-h-screen',
-    'table-auto',
-    'mx-auto',
-    'align-middle',
-    'whitespace-nowrap',
-  ],
+  // Best practice: Use literal Tailwind class names in your React code.
+  // Avoid dynamic class name generation (e.g., `shadow-${level}`) unless you add all possible values to the safelist.
+  // The content array below covers all .js, .jsx, .ts, .tsx, and .html files in your project where Tailwind classes may appear.
+  // The safelist is now empty, as all classes should be detected by the content scan.
+  safelist: [],
   plugins: [],
 }
