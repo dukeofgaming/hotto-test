@@ -1,4 +1,4 @@
-# System Overview
+# Requirements
 
 Your system receives structured JSON submissions from external forms filled out by users.
 Each form has a unique ID and a list of questions.
@@ -50,14 +50,18 @@ For implementation details and rationale, refer to the ADRs directory.
 
 This project is designed for maintainability, scalability, and clarity using modern architecture patterns:
 
-- **Clean Architecture**: Clear separation of concerns—domain logic, use cases, and infrastructure are isolated. All business logic lives in the domain and use case layers; persistence is handled by gateways and repositories.
 - **Vertical Slicing**: Features are organized into self-contained slices (e.g., `save_submission`, `patient_analytics`), each with its own domain, use case, adapters, and infrastructure.
+
 - **Screaming Architecture**: The directory structure makes business features and boundaries obvious.
-- **Domain-Driven Design (DDD)**: Uses entities, repositories, gateways, and value objects. Each slice is a bounded context with dedicated models and logic.
-- **Dependency Injection**: Use cases and controllers receive repositories/gateways via constructor injection for easy testing and swapping. The core never references infrastructure directly.
+
+- **Domain-Driven Design (DDD)**: Uses entities. Each feature (slice) is a bounded context with dedicated models and logic.
+
 - **Thin Controllers & Pure Routing**: API controllers only route requests; all business and persistence logic is in use cases and controllers.
+
 - **Centralized Validation & Type Safety**: Question types are validated centrally before persistence. Domain entities use dataclasses for type safety.
+
 - **Testing**: Test suites for React and backend logic use clear Given/When/Then structure. Naming and organization are consistent and descriptive.
+
 - **Minimal APIs & Cleanup**: Only necessary methods are exposed. Unused code is removed and imports are alphabetized for clarity.
 
 The design supports easy extension (e.g., new storage backends, validation rules, or feature slices) with minimal changes to core logic.
