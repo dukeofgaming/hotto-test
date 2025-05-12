@@ -142,18 +142,34 @@ function PatientSurveys({ patient_id }) {
               background: 'rgba(0,0,0,0.5)',
               zIndex: 1000
             }} />
-            <div className="bg-[#4B4662] rounded-lg shadow-lg p-8 max-w-3xl w-full mx-auto" style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 1001,
-              minWidth: 600,
-              maxWidth: '90vw',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-            }}>
-              <AnswerList answers={answers} questions={shownQuestions} onClose={handleClose} />
+            <div className="fixed inset-0 flex items-center justify-center z-[1001] bg-[#4B4662]" style={{ pointerEvents: 'auto' }}>
+              <div
+                className="relative pt-12 md:pt-16 p-8 max-w-3xl w-full mx-auto flex flex-col rounded-xl"
+                style={{
+                  minWidth: 600,
+                  maxWidth: '90vw',
+                  maxHeight: '90vh',
+                  overflowY: 'auto',
+                  pointerEvents: 'auto',
+                }}
+                role="dialog"
+                aria-label="answers"
+              >
+                <div className="bg-[#F6E7D8] rounded-xl w-full relative">
+                  <button
+                    type="button"
+                    aria-label="Close modal"
+                    onClick={handleClose}
+                    className="absolute top-[-20px] right-[-20px] bg-white text-[#4B4662] rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 z-10 border border-[#F6E7D8]"
+                  >
+                    <span className="sr-only">Close</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <AnswerList answers={answers} questions={shownQuestions} hideClose className="bg-white rounded-lg shadow-md" />
+                </div>
+              </div>
             </div>
           </>
         )}

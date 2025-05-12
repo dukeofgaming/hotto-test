@@ -1,7 +1,7 @@
 import React from "react";
 import Answer from "./Answer/Answer";
 
-function AnswerList({ answers, questions, onClose }) {
+function AnswerList({ answers, questions, onClose, hideClose = false }) {
   // Map questions by id for easy lookup
   const questionMap = React.useMemo(() => {
     const map = {};
@@ -15,22 +15,26 @@ function AnswerList({ answers, questions, onClose }) {
     .filter(Boolean);
 
   return (
-    <div role="dialog" aria-label="answers" className="bg-white rounded-lg shadow-md border border-gray-200 p-8 max-w-3xl w-full mx-auto">
-      <button type="button" aria-label="close" onClick={onClose}>Close</button>
-      <table className="w-full table-auto mx-auto align-middle">
-        <thead>
-          <tr>
-            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white rounded-tl-lg">Question</th>
-            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white">Type</th>
-            <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap !text-white rounded-tr-lg">Answer</th>
-          </tr>
-        </thead>
+    <div role="dialog" aria-label="answers" className="bg-[#F6E7D8] p-8 max-w-3xl w-full mx-auto">
+      {!hideClose && (
+        <button type="button" aria-label="close" onClick={onClose} className="mb-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400">Close</button>
+      )}
+      <div className="rounded-lg overflow-hidden border border-gray-200 shadow-md bg-white w-full">
+        <table className="w-full table-auto mx-auto align-middle">
+          <thead>
+            <tr>
+              <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap text-black rounded-tl-lg">Question</th>
+              <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap text-black">Type</th>
+              <th className="hotto-th px-6 py-3 font-semibold text-left whitespace-nowrap text-black rounded-tr-lg">Answer</th>
+            </tr>
+          </thead>
         <tbody>
           {orderedAnswers.map(ans => (
             <Answer key={ans.id} question={questionMap[ans.question_id]} answer={ans} />
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

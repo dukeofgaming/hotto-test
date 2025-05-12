@@ -7,11 +7,12 @@ function SurveySubmissionList({ submissions, onView, patient_id, forms, selected
   const columnCount = 5;
   return (
     <div className="flex items-center justify-center h-full">
-      <table role="table" aria-label="survey submissions" className="bg-white rounded-lg shadow-md border border-gray-200 table-auto align-middle">
-        <thead>
+      <div className="rounded-lg overflow-hidden border border-gray-200 shadow-md bg-white w-full">
+        <table role="table" aria-label="survey submissions" className="table-auto align-middle w-full">
+          <thead>
           {/* Patient Info Row */}
           <tr>
-            <th colSpan={columnCount} className="text-center py-3 text-xl font-semibold text-gray-800 bg-white border-b border-gray-200">
+            <th colSpan={columnCount} className="text-center py-3 text-xl font-semibold text-black bg-white">
               Patient Surveys for <span className="font-mono">patient_id: {patient_id}</span>
             </th>
           </tr>
@@ -48,6 +49,7 @@ function SurveySubmissionList({ submissions, onView, patient_id, forms, selected
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }
