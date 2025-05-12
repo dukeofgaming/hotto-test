@@ -1,7 +1,7 @@
 # ADR-4: Component Driven Development
 
 ## Status
-Accepted
+Proposed
 
 ## Context
 Frontend UI should be modular, reusable, and easily testable.

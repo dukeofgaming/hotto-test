@@ -1,7 +1,7 @@
 # ADR-5: Domain Driven Design (DDD)
 
 ## Status
-Accepted
+Proposed
 
 ## Context
 We want to model our core business logic using patterns that reflect real-world concepts and ensure a robust, maintainable, and expressive codebase.
@@ -28,3 +28,4 @@ Adopt Domain Driven Design (DDD) principles for our core logic, including the us
   ![alt text](image-1.png)
 
 - Compatible with Screaming Architecture pattern (see [[ADR-3]]): Feature and domain boundaries are clear and explicit in the project structure.
+- Added initial complexity to potentially temporary code, however, Entities were kept.

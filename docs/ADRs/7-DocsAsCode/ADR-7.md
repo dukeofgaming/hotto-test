@@ -1,7 +1,7 @@
 # ADR-7: Docs as Code
 
 ## Status
-Accepted
+Proposed
 
 ## Context
 Up-to-date documentation is essential for project success. Documentation must be clear, thorough, and evolve alongside the codebase. Traditional approaches (wikis, external tools) often fall out of sync with code. Treating documentation as code ensures it is always versioned, reviewed, and improved as part of the development process, following the pattern (see [[ADR-7]]).

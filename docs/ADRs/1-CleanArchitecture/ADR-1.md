@@ -1,7 +1,7 @@
 # ADR-1: Clean Architecture
 
 ## Status
-Accepted
+Rejected
 
 ## Context
 We need a maintainable, testable, and decoupled backend structure that reduces dependency on a specific framework and produces durable code.
@@ -14,3 +14,4 @@ Adopt Clean Architecture: separate domain, application, and adapter layers.
 ## Consequences
 - Business logic is isolated from infrastructure.
 - Easier testing and future refactoring.
+- Added initial complexity to potentially temporary code.

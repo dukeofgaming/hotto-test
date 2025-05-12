@@ -1,7 +1,7 @@
 # ADR-6: Fractal File Structure
 
 ## Status
-Accepted
+Proposed
 
 ## Context
 While following various refactoring techniques and in alignment with our architectural patterns, it often makes sense to extract shared code into a "Core" folder. This folder does not always make sense at a global level, but rather at a module or feature slice level.
