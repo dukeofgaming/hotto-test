@@ -3,7 +3,7 @@ from flask import Flask, request
 import os
 from hotto.bootloader import bootloader
 from hotto.slices.save_submission.api_controller import SaveSubmissionApiController
-from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
+from hotto.slices.patient_analytics.api_controller import PatientAnalyticsApiController
 from hotto.slices.show_surveys.api_controller import ShowSurveysApiController
 from hotto.slices.show_surveys.page_controller import ShowSurveysPageController
 

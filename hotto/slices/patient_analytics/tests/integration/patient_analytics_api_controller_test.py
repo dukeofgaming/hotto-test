@@ -1,6 +1,6 @@
 import pytest
 from flask import Flask
-from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
+from hotto.slices.patient_analytics.api_controller import PatientAnalyticsApiController
 from hotto.app import app
 
 # TODO: Refactor to GWT/AAA

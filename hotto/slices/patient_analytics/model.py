@@ -1,15 +1,17 @@
 from typing import List, Dict, Any
-from hotto.slices.patient_analytics.application.patient_analytics_gateway import PatientAnalyticsGateway
+from hotto.modules.survey.domain.entities.patient import Patient
+from hotto.modules.timestamp.domain.timestamp_helper import TimestampHelper
 from flask import current_app
 import mysql.connector
-import os
 
-class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
+class InvalidPatientAnalyticsRequest(Exception):
+    pass
+
+class PatientAnalyticsModel:
     def __init__(self):
-        # Always get DB config from app context
         self.db_config = current_app.config['DB_CONFIG']
 
-    def get_patients_without_insurance(self) -> List[str]:
+    def get_patients_without_insurance(self) -> List[Patient]:
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor(dictionary=True)
         query = '''
@@ -24,9 +26,14 @@ class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
         patient_ids = [row['id'] for row in rows]
         cursor.close()
         conn.close()
-        return patient_ids
+        patients = [Patient(id=pid) for pid in patient_ids]
+        if not patients:
+            raise InvalidPatientAnalyticsRequest("No patient data available.")
+        return patients
 
     def get_clinical_data_for_patient(self, patient_id: str) -> List[Dict[str, Any]]:
+        if not patient_id:
+            raise InvalidPatientAnalyticsRequest("Missing patient_id.")
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor(dictionary=True)
         query = '''
@@ -49,4 +56,11 @@ class MySQLPatientAnalyticsGateway(PatientAnalyticsGateway):
         data = cursor.fetchall()
         cursor.close()
         conn.close()
+        for item in data:
+            if "submitted_at" in item and item["submitted_at"] is not None:
+                item["submitted_at"] = TimestampHelper.unix_to_iso8601(item["submitted_at"])
+            if "is_clinical" in item:
+                item["is_clinical"] = bool(item["is_clinical"])
+        if not data:
+            raise InvalidPatientAnalyticsRequest(f"No clinical data for patient_id: {patient_id}")
         return data
