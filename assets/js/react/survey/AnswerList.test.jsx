@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import AnswerList from "./AnswerList";
+import AnswerList from "./AnswerList.jsx";
 
 describe("Given AnswerList is rendered", () => {
   describe("When answers and questions are provided", () => {
@@ -30,16 +30,16 @@ describe("Given AnswerList is rendered", () => {
       const answerRows = allRows.filter(row => row.getAttribute("aria-label") === "answer");
       expect(answerRows.length).toBe(2);
 
+      // Check first row (text answer)
       expect(answerRows[0]).toHaveTextContent("How old are you?");
       expect(answerRows[0]).toHaveTextContent("text");
-
       const textInput = screen.getByRole("textbox", { name: /answer value/i });
       expect(textInput).toBeInTheDocument();
       expect(textInput.value).toBe("42");
 
+      // Check second row (boolean answer)
       expect(answerRows[1]).toHaveTextContent("Do you smoke?");
       expect(answerRows[1]).toHaveTextContent("boolean");
-
       const boolInput = screen.getByRole("checkbox", { name: /answer value/i });
       expect(boolInput).toBeInTheDocument();
       expect(boolInput.checked).toBe(true);

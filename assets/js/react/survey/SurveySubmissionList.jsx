@@ -1,6 +1,6 @@
 import React from "react";
-import SurveySubmission from "./SurveySubmission";
-import FormSelector from "../FormSelector/FormSelector";
+
+import FormSelector from "./FormSelector.jsx";
 
 function SurveySubmissionList({ submissions, onView, patient_id, forms, selectedFormId, onSelect }) {
   // Number of columns in the table

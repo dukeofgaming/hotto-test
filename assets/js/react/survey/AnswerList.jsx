@@ -1,5 +1,5 @@
 import React from "react";
-import Answer from "./Answer/Answer";
+import AnswerValue from "./AnswerValue";
 
 function AnswerList({ answers, questions, onClose, hideClose = false }) {
   // Map questions by id for easy lookup
@@ -29,9 +29,18 @@ function AnswerList({ answers, questions, onClose, hideClose = false }) {
             </tr>
           </thead>
         <tbody>
-          {orderedAnswers.map(ans => (
-            <Answer key={ans.id} question={questionMap[ans.question_id]} answer={ans} />
-          ))}
+          {orderedAnswers.map(ans => {
+            const question = questionMap[ans.question_id];
+            return (
+              <tr key={ans.id} role="row" aria-label="answer">
+                <td className="px-6 py-3 text-black">{question.question_text}</td>
+                <td className="px-6 py-3 text-black">{question.type}</td>
+                <td className="px-6 py-3 text-black">
+                  <AnswerValue value={ans.value} type={question.type} />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import FormSelector from "./FormSelector/FormSelector";
-import SurveySubmissionList from "./SurveySubmissionList/SurveySubmissionList";
-import AnswerList from "./AnswerList/AnswerList";
+import FormSelector from "./FormSelector.jsx";
+import SurveySubmissionList from "./SurveySubmissionList.jsx";
+import AnswerList from "./AnswerList.jsx";
 
 // --- Begin: Use improved API response as const ---
 /*

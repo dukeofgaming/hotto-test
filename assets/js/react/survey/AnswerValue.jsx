@@ -25,3 +25,4 @@ function AnswerValue({ type, value }) {
 }
 
 export default AnswerValue;
+
