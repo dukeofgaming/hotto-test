@@ -2,7 +2,6 @@ import json
 import pytest
 from hotto.app import app
 from dotenv import load_dotenv
-from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
 
 # Load test environment variables
 def setup_module(module):
@@ -19,13 +18,28 @@ def submissions():
     with open('data/data.json') as f:
         return json.load(f)
 
-def test_given_basic_check_submission_when_posted_then_returns_success(client, mocker, submissions):
-    # Arrange: A valid basic_check submission and a mocked database connection
-    mocker.patch('mysql.connector.connect')
-    basic_check_submission = next(
-        submission for submission in submissions
-        if submission['form_id'] == 'basic_check' and submission['submission_id'] == 'ghi321'
-    )
+from hotto.modules.database.mysql import MySQLDatabase
+from hotto.app import app
+
+def delete_submission_and_answers(submission_id):
+    with app.app_context():
+        db = MySQLDatabase()
+        conn = db.connect()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM answers WHERE submission_id = %s", (submission_id,))
+            cursor.execute("DELETE FROM submissions WHERE id = %s", (submission_id,))
+            conn.commit()
+            cursor.close()
+        finally:
+            conn.close()
+
+def test_given_basic_check_submission_when_posted_then_returns_success(client, submissions):
+    # Arrange: Use the first submission from data/data.json (real DB integration)
+    basic_check_submission = submissions[0]
+
+    # Ensure clean state before test
+    delete_submission_and_answers(basic_check_submission["submission_id"])
 
     # Act: Post the submission to the /api/surveys/submit endpoint
     response = client.post('/api/surveys/submit', json=basic_check_submission)
@@ -34,33 +48,23 @@ def test_given_basic_check_submission_when_posted_then_returns_success(client, m
     assert response.status_code == 201
     assert response.get_json()["message"] == "Submission saved successfully"
 
-def test_given_mental_health_followup_submission_when_posted_then_returns_success(client, mocker, submissions):
-    # Arrange: A valid mental_health_followup submission and a mocked database connection
-    mocker.patch('mysql.connector.connect')
-    mental_health_followup_submission = next(
-        submission for submission in submissions
-        if submission['form_id'] == 'mental_health_followup'
-    )
 
-    # Act: Post the submission to the /api/surveys/submit endpoint
-    response = client.post('/api/surveys/submit', json=mental_health_followup_submission)
+def test_given_duplicate_submission_when_posted_then_returns_duplicate_error(client, submissions):
+    # Arrange: Use the first submission from data/data.json
+    basic_check_submission = submissions[0]
 
-    # Assert: The response should indicate success
-    assert response.status_code == 201
-    assert response.get_json()["message"] == "Submission saved successfully"
+    # Ensure clean state
+    delete_submission_and_answers(basic_check_submission["submission_id"])
 
-def test_given_failing_submission_when_posted_then_returns_error(client, mocker, submissions):
-    # Arrange: A mocked database connection that raises an exception
-    mock_connect = mocker.patch('mysql.connector.connect')
-    mock_connect.side_effect = Exception("Database connection failed")
-    failing_submission = next(
-        submission for submission in submissions
-        if submission['submission_id'] == 'ghi322'
-    )
+    # Act: Post the submission twice
+    response1 = client.post('/api/surveys/submit', json=basic_check_submission)
+    response2 = client.post('/api/surveys/submit', json=basic_check_submission)
 
-    # Act: Post the submission to the /api/surveys/submit endpoint
-    response = client.post('/api/surveys/submit', json=failing_submission)
+    # Assert: First should succeed, second should return duplicate error
+    assert response1.status_code == 201
+    assert response1.get_json()["message"] == "Submission saved successfully"
+    assert response2.status_code == 500
+    assert "Duplicate entry" in response2.get_json().get("error", "")
 
-    # Assert: The response should indicate a failure with an appropriate error message
-    assert response.status_code == 500
-    assert "error" in response.get_json()
+    # Cleanup: Remove the test submission and answers
+    delete_submission_and_answers(basic_check_submission["submission_id"])

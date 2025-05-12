@@ -1,13 +1,8 @@
-import logging
-logging.basicConfig(filename='flask_app.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
-
 from dotenv import load_dotenv
-from flask import Flask, jsonify, render_template, request
-import json
+from flask import Flask, request
 import os
-import re
 from hotto.bootloader import bootloader
-from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
+from hotto.slices.save_submission.api_controller import SaveSubmissionApiController
 from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
 from hotto.slices.show_surveys.api_controller import ShowSurveysApiController
 from hotto.slices.show_surveys.page_controller import ShowSurveysPageController
