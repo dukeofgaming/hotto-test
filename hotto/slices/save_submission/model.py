@@ -8,7 +8,7 @@ class InvalidQuestionTypeError(Exception):
 
 class SaveSubmissionModel:
     def __init__(self):
-        pass
+        self.db = MySQLDatabase()
 
     def save_submission(self, submission: Submission, raw_answers: dict):
         # Validate question types
@@ -23,8 +23,7 @@ class SaveSubmissionModel:
                 raise InvalidQuestionTypeError(f"Invalid question type: {question_type}")
 
         # Save submission and answers directly (no repository/gateway)
-        db = MySQLDatabase()
-        conn = db.connect()
+        conn = self.db.connect()
         try:
             cursor = conn.cursor()
             # Save submission

@@ -1,12 +1,11 @@
-import mysql.connector
-from flask import current_app
+from hotto.modules.database.mysql import MySQLDatabase
 from hotto.modules.survey.domain.entities.form import Form
 from hotto.modules.survey.domain.entities.question import Question
 from hotto.modules.database.mysql import MySQLDatabase
 
 class ShowSurveysModel:
     def __init__(self):
-        pass
+        self.db = MySQLDatabase()
 
     def get_surveys_for_patient(self, patient_id: str):
         if not patient_id:
@@ -27,8 +26,7 @@ class ShowSurveysModel:
             WHERE s.patient_id = %s
             ORDER BY s.submitted_at DESC, fq.position ASC
         '''
-        db = MySQLDatabase()
-        return db.fetch_all(query, (patient_id,))
+        return self.db.fetch_all(query, (patient_id,))
 
     def _aggregate_surveys(self, rows):
         forms = self._aggregate_surveys_forms(rows)
