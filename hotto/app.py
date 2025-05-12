@@ -9,7 +9,7 @@ import re
 from hotto.bootloader import bootloader
 from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
 from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
-from hotto.slices.show_surveys.adapters.show_surveys_api_controller import ShowSurveysApiController
+from hotto.slices.show_surveys.show_surveys_api_controller import ShowSurveysApiController
 
 load_dotenv()
 
@@ -42,30 +42,22 @@ def index():
 
     # Find the latest CSS file in the static/react/assets directory
     assets_dir = os.path.join(app.static_folder, 'react', 'assets')
-    logging.debug(f"[DEBUG] assets_dir: {assets_dir}")
-    print(f"[DEBUG] assets_dir: {assets_dir}")
+    
     css_file = None
     if os.path.isdir(assets_dir):
         all_files = os.listdir(assets_dir)
-        logging.debug(f"[DEBUG] Files in assets_dir: {all_files}")
-        print(f"[DEBUG] Files in assets_dir: {all_files}")
         css_files = [f for f in all_files if f.startswith('index-') and f.endswith('.css')]
-        logging.debug(f"[DEBUG] Matched CSS files: {css_files}")
-        print(f"[DEBUG] Matched CSS files: {css_files}")
         if css_files:
             css_file = sorted(css_files)[-1]  # Use the latest by name
-            logging.debug(f"[DEBUG] Selected css_file: {css_file}")
-            print(f"[DEBUG] Selected css_file: {css_file}")
-        else:
-            logging.debug("[DEBUG] No CSS files matched.")
-            print("[DEBUG] No CSS files matched.")
-    else:
-        logging.debug("[DEBUG] assets_dir does not exist.")
-        print("[DEBUG] assets_dir does not exist.")
 
     # Get patient_id from querystring, default to False if not provided
     patient_id = request.args.get('patient_id', False)
-    return render_template('index.html', react_name=patient_id, react_js_file=js_file, react_css_file=css_file)
+    return render_template(
+        'index.html',
+        react_name      = patient_id,
+        react_js_file   = js_file,
+        react_css_file  = css_file
+    )
 
 # Update Flask route handlers to use new controller location
 @app.route('/api/patients/without-insurance', methods=['GET'])

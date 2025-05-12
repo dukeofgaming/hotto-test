@@ -7,7 +7,6 @@ from hotto.modules.survey.domain.entities.question import Question
 from hotto.modules.survey.domain.repositories.submission_repository import SubmissionRepository
 from hotto.modules.survey.infrastructure.gateways.mysql_answer_gateway import MySQLAnswerGateway
 from hotto.modules.survey.infrastructure.gateways.mysql_submission_gateway import MySQLSubmissionGateway
-from hotto.slices.show_surveys.domain.patient_surveys_aggregate import PatientSurveysAggregate
 
 class MySQLSubmissionRepository(SubmissionRepository):
     def __init__(self):
@@ -24,7 +23,7 @@ class MySQLSubmissionRepository(SubmissionRepository):
         finally:
             conn.close()
 
-    def get_by_patient_id(self, patient_id: str) -> PatientSurveysAggregate:
+    def get_by_patient_id(self, patient_id: str) -> dict:
         db_config = current_app.config['DB_CONFIG']
         conn = mysql.connector.connect(**db_config)
         try:
@@ -90,10 +89,10 @@ class MySQLSubmissionRepository(SubmissionRepository):
                     submitted_at=sub['submitted_at'],
                     answers=answers
                 ))
-            return PatientSurveysAggregate(
-                forms=list(forms.values()),
-                questions=list(questions.values()),
-                submissions=submission_objs
-            )
+            return {
+                "forms": list(forms.values()),
+                "questions": list(questions.values()),
+                "submissions": submission_objs
+            }
         finally:
             conn.close()
