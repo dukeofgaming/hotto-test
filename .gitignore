@@ -56,3 +56,11 @@ node_modules/
 
 # Static files
 static/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+e2e/smoke-basic_check.png

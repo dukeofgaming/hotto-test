@@ -1,5 +1,5 @@
 import pytest
-from hotto.modules.timestamp.timestamp_helper import TimestampHelper
+from hotto.modules.timestamp.domain.timestamp_helper import TimestampHelper
 
 class TestTimestampHelper:
     def test_given_iso8601_when_converting_to_unix_then_returns_expected_timestamp(self):

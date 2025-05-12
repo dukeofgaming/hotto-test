@@ -1,6 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import PatientSurveys from "./PatientSurveys";
+import FormSelector from "./FormSelector.jsx";
+import SurveySubmissionList from "./SurveySubmissionList.jsx";
+import AnswerList from "./AnswerList.jsx";
 
 describe("Given PatientSurveys is rendered", () => {
   beforeEach(() => {

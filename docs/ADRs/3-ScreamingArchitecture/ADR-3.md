@@ -1,7 +1,7 @@
 # ADR-3: Screaming Architecture
 
 ## Status
-Accepted
+Proposed
 
 ## Context
 Directory and file names reflect business domains and features, not technical patterns.

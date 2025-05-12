@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
-from flask import Flask, jsonify, render_template, request
-import json
+from flask import Flask, request
 import os
 from hotto.bootloader import bootloader
-from hotto.slices.save_submission.adapters.save_submission_api_controller import SaveSubmissionApiController
-from hotto.slices.patient_analytics.adapters.patient_analytics_api_controller import PatientAnalyticsApiController
-from hotto.slices.show_surveys.adapters.show_surveys_api_controller import ShowSurveysApiController
+from hotto.features.save_submission.api_controller import SaveSubmissionApiController
+from hotto.features.patient_analytics.api_controller import PatientAnalyticsApiController
+from hotto.features.show_surveys.api_controller import ShowSurveysApiController
+from hotto.features.show_surveys.page_controller import ShowSurveysPageController
 
 load_dotenv()
 
@@ -29,15 +29,11 @@ def submit():
     controller = SaveSubmissionApiController()
     return controller.save_submission(request)
 
+
 @app.route('/')
 def index():
-    manifest_path = os.path.join(app.static_folder, 'react', '.vite', 'manifest.json')
-    with open(manifest_path) as f:
-        manifest = json.load(f)
-    js_file = manifest['index.html']['file']
-    # Get patient_id from querystring, default to False if not provided
-    patient_id = request.args.get('patient_id', False)
-    return render_template('index.html', react_name=patient_id, react_js_file=js_file)
+    controller = ShowSurveysPageController()
+    return controller.index(app)
 
 # Update Flask route handlers to use new controller location
 @app.route('/api/patients/without-insurance', methods=['GET'])

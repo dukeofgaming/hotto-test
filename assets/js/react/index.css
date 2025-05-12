@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-sans {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #4B4662 !important;
+  color: #fff !important;
+  font-family: Inter, Helvetica, Arial, sans-serif !important;
+}
+
+.hotto-th {
+  background-color: #FF6F4C;
+}
+
+.hotto-td {
+  /* Padding and font handled by Tailwind classes in JSX */
+}
