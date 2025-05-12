@@ -2,7 +2,7 @@ from flask import jsonify
 
 from http import HTTPStatus
 
-from hotto.slices.show_surveys.model import ShowSurveysModel
+from hotto.features.show_surveys.model import ShowSurveysModel
 
 
 class ShowSurveysApiController:

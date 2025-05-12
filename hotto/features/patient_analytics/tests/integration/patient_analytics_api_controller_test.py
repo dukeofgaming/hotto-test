@@ -1,9 +1,11 @@
 import pytest
-from flask import Flask
-from hotto.slices.patient_analytics.api_controller import PatientAnalyticsApiController
 from hotto.app import app
+from dotenv import load_dotenv
 
-# TODO: Refactor to GWT/AAA
+# Load test environment variables
+def setup_module(module):
+    load_dotenv(dotenv_path='test.env')
+
 
 @pytest.fixture
 def client():

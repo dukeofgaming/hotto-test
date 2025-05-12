@@ -1,7 +1,6 @@
 import pytest
 from hotto.app import app
 from dotenv import load_dotenv
-import json
 
 # Load test environment variables
 def setup_module(module):

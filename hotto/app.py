@@ -2,10 +2,10 @@ from dotenv import load_dotenv
 from flask import Flask, request
 import os
 from hotto.bootloader import bootloader
-from hotto.slices.save_submission.api_controller import SaveSubmissionApiController
-from hotto.slices.patient_analytics.api_controller import PatientAnalyticsApiController
-from hotto.slices.show_surveys.api_controller import ShowSurveysApiController
-from hotto.slices.show_surveys.page_controller import ShowSurveysPageController
+from hotto.features.save_submission.api_controller import SaveSubmissionApiController
+from hotto.features.patient_analytics.api_controller import PatientAnalyticsApiController
+from hotto.features.show_surveys.api_controller import ShowSurveysApiController
+from hotto.features.show_surveys.page_controller import ShowSurveysPageController
 
 load_dotenv()
 

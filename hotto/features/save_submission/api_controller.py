@@ -2,7 +2,7 @@ from mysql.connector import Error
 from flask import jsonify
 from http import HTTPStatus
 from hotto.modules.survey.domain.entities.submission import Submission
-from hotto.slices.save_submission.model import SaveSubmissionModel, InvalidQuestionTypeError
+from hotto.features.save_submission.model import SaveSubmissionModel, InvalidQuestionTypeError
 
 class SaveSubmissionApiController:
     def __init__(self):

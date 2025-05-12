@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from http import HTTPStatus
-from hotto.slices.patient_analytics.model import PatientAnalyticsModel, InvalidPatientAnalyticsRequest
+from hotto.features.patient_analytics.model import PatientAnalyticsModel, InvalidPatientAnalyticsRequest
 
 class PatientAnalyticsApiController:
     def __init__(self):
