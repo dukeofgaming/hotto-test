@@ -1,7 +1,8 @@
 from flask import jsonify
+
 from http import HTTPStatus
-from hotto.modules.survey.infrastructure.repositories.mysql_submission_repository import MySQLSubmissionRepository
-from hotto.slices.show_surveys.show_surveys_usecase import ShowSurveysModel
+
+from hotto.slices.show_surveys.model import ShowSurveysModel
 
 
 class ShowSurveysApiController:
